@@ -11,7 +11,7 @@ router.get('/', async (req, res) => {
 })
 router.get('/:id', async (req, res) => {
     let teacherId  = req.params.id;
-    let data = await TeacherDB.findById(teacherId);
+    let data = await TeacherDB.findById(teacherId).populate("Subject");
     res.send({data:data})
 })
 
