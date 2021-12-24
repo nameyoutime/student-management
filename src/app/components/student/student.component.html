@@ -1,0 +1,71 @@
+<div>
+  <div id="table">
+    <table class="table align-middle">
+      <thead>
+        <tr>
+          <th scope="col">ID </th>
+          <th scope="col">Name</th>
+          <th scope="col">Age</th>
+          <th scope="col">Yob</th>
+          <th scope="col">ParentsId</th>
+          <th scope="col">TeachersId</th>
+          <th scope="col">Chức năng</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr scope="row">
+          <td>ID</td>
+          <td>Name</td>
+          <td>Age</td>
+          <td>Yob</td>
+          <td>ParentsId</td>
+          <td>TeachersId</td>
+          <td>
+            <button type="button" class="btn btn-safe btn-sm px-3" data-toggle="modal" data-target="#detailProduct">
+              Chi tiết
+            </button>
+            <button type="button" class="btn btn-primary btn-sm px-3" data-toggle="modal"
+              data-target="#exampleModalLabel">
+              Cập nhật
+            </button>
+            <button type="button" class="btn btn-danger btn-sm px-3">
+              Xóa
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+<button type="button" class="btn btn-primary" (click)="openModal(template)">Thêm học sinh</button>
+<ng-template #template>
+  <div class="modal-header">
+    <h4 class="modal-title pull-left">Thêm học sinh mới</h4>
+    <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+      <span aria-hidden="true">×</span>
+    </button>
+  </div>
+  <form [formGroup]="addStudentForm">
+    <div class="modal-body">
+      <div id="addForm">
+        <label for="exampleInputEmail1">Họ tên</label>
+        <input type="email" class="form-control"  placeholder="Nhập tên">
+        <label for="exampleInputEmail1">Tuổi</label>
+        <input type="email" class="form-control"  placeholder="Nhập tuổi">
+        <label for="exampleInputEmail1">Ngày sinh</label>
+        <div id="YobInput">
+          <input type="text" ngbDatepicker #d="ngbDatepicker"   placeholder="2021-12-04"/>
+          <button (click)="d.toggle()">Toggle</button>
+        </div>
+        <label for="exampleInputEmail1">Id Phụ huynh</label>
+        <input type="email" class="form-control"  placeholder="Nhập tên">
+        <label for="exampleInputEmail1">Id Giáo viên</label>
+        <input type="email" class="form-control"  placeholder="Nhập tên">
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-primary" (click)="modalRef.hide()">Đóng</button>
+      <button type="submit" class="btn btn-primary">Thêm mới</button>
+    </div>
+  </form>
+</ng-template>
