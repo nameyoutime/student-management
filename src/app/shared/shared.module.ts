@@ -9,6 +9,7 @@ import { FormsModule,ReactiveFormsModule } from '@angular/forms';
 import { NgbDatepickerModule } from '@ng-bootstrap/ng-bootstrap';
 import { SidebarComponent } from '../components/sidebar/sidebar.component';
 import { NavbarComponent } from '../components/navbar/navbar.component';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
   declarations: [StudentComponent,SidebarComponent,NavbarComponent],
@@ -18,6 +19,7 @@ import { NavbarComponent } from '../components/navbar/navbar.component';
     FormsModule,
     ReactiveFormsModule,
     NgbDatepickerModule,
+    NgbModule
 
   ],
   exports:[StudentComponent,ModalModule,FormsModule,ReactiveFormsModule,NgbDatepickerModule,SidebarComponent,CommonModule,],
