@@ -1,4 +1,5 @@
 
+
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { StudentComponent } from '../components/student/student.component';
@@ -19,7 +20,7 @@ import { NavbarComponent } from '../components/navbar/navbar.component';
     NgbDatepickerModule,
 
   ],
-  exports:[StudentComponent,ModalModule,FormsModule,ReactiveFormsModule,NgbDatepickerModule,SidebarComponent,CommonModule,NavbarComponent],
+  exports:[StudentComponent,ModalModule,FormsModule,ReactiveFormsModule,NgbDatepickerModule,SidebarComponent,CommonModule,],
   providers:[BsModalService]
 })
 export class SharedModule { }

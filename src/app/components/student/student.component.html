@@ -8,18 +8,20 @@
           <th scope="col">Age</th>
           <th scope="col">Yob</th>
           <th scope="col">ParentsId</th>
-          <th scope="col">TeachersId</th>
+          <th scope="col">TeacherId</th>
+          <th scope="col">ClassId</th>
           <th scope="col">Chức năng</th>
         </tr>
       </thead>
       <tbody>
-        <tr scope="row">
-          <td>ID</td>
-          <td>Name</td>
-          <td>Age</td>
-          <td>Yob</td>
-          <td>ParentsId</td>
-          <td>TeachersId</td>
+        <tr scope="row" *ngFor="let student of this.students">
+          <td>{{student._id}}</td>
+          <td>{{student.Name}}</td>
+          <td>{{student.Age}}</td>
+          <td>{{student.Yob}}</td>
+          <td>{{student.Parents}}</td>
+          <td>{{student.Teacher}}</td>
+          <td>{{student.Class}}</td>
           <td>
             <button type="button" class="btn btn-safe btn-sm px-3" data-toggle="modal" data-target="#detailProduct">
               Chi tiết
@@ -58,9 +60,9 @@
           <button (click)="d.toggle()">Toggle</button>
         </div>
         <label for="exampleInputEmail1">Id Phụ huynh</label>
-        <input type="email" class="form-control"  placeholder="Nhập tên">
+        <input type="email" class="form-control"  placeholder="Nhập Id Phụ huynh">
         <label for="exampleInputEmail1">Id Giáo viên</label>
-        <input type="email" class="form-control"  placeholder="Nhập tên">
+        <input type="email" class="form-control"  placeholder="Nhập Id Giáo viên">
       </div>
     </div>
     <div class="modal-footer">
