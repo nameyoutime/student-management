@@ -5,6 +5,9 @@ const router = app.Router();
 const subjectSchema = require('../../schemas/subject.schemas');
 const SubjectDB = mongoose.model('Subject', subjectSchema);
 
+const teacherSchema = require('../../schemas/teacher.schemas');
+const TeacherDB = mongoose.model('Teacher', teacherSchema);
+
 router.get('/', async (req, res) => {
     let data = await SubjectDB.find();
     res.send({data:data})
@@ -28,9 +31,19 @@ router.put('/:id', async (req, res) => {
     res.send({data:result});
 })
 
+router.get('/keyword/:keyword', async (req, res) => {
+    let keyword = req.params.keyword;
+    let result = await SubjectDB.find({Title : { $regex: keyword, $options: 'i' }})
+    res.send({ data: result })
+})
+
 router.delete('/:id', async (req, res) => {
     let subjectId  = req.params.id;
+    // let result = await TeacherDB.find({}).select({"_id":subjectId});
     let result = await SubjectDB.findByIdAndRemove(subjectId);
+    await TeacherDB.updateMany({Subject:[
+        subjectId
+    ]},{$unset:{Subject:[subjectId]}});
     res.send({data:result});
 })
 

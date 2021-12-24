@@ -5,6 +5,9 @@ const router = app.Router();
 const classSchema = require('../../schemas/class.schemas');
 const ClassDB = mongoose.model('Class', classSchema);
 
+const studentSchema = require('../../schemas/student.schemas');
+const StudentDB = mongoose.model('Student', studentSchema);
+
 router.get('/', async (req, res) => {
     let data = await ClassDB.find();
     res.send({ data: data })
@@ -13,6 +16,11 @@ router.get('/:id', async (req, res) => {
     let classId = req.params.id;
     let data = await ClassDB.findById(classId);
     res.send({ data: data })
+})
+router.get('/keyword/:keyword', async (req, res) => {
+    let keyword = req.params.keyword;
+    let result = await ClassDB.find({Room : { $regex: keyword, $options: 'i' }})
+    res.send({ data: result })
 })
 
 router.post('/', async (req, res) => {
@@ -44,6 +52,9 @@ router.put('/:id', async (req, res) => {
 router.delete('/:id', async (req, res) => {
     let classId = req.params.id;
     let result = await ClassDB.findByIdAndRemove(classId);
+    await StudentDB.updateMany({Class:[
+        classId
+    ]},{$unset:{Class:[classId]}});
     res.send({ data: result });
 })
 
