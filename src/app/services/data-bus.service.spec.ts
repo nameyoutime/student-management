@@ -1,13 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 
-import { DataDAOService } from './data-dao.service';
+import { DataBUSService } from './data-bus.service';
 
-describe('DataDAOService', () => {
-  let service: DataDAOService;
+describe('DataBUSService', () => {
+  let service: DataBUSService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    service = TestBed.inject(DataDAOService);
+    service = TestBed.inject(DataBUSService);
   });
 
   it('should be created', () => {
