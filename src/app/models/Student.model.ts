@@ -1,7 +1,7 @@
 export class Student {
   constructor(
     public _id?: string | null,
-    public Name?: boolean | null,
+    public Name?: string | null,
     public Age?: string | null,
     public Yob?: string | null,
     public Parents?: Array<string> | any,
