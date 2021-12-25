@@ -54,10 +54,11 @@ export class StudentComponent implements OnInit {
   }
   addNewStudent() {
     let form = this.addStudentForm.controls;
-    let year = form.Yob.value?.year;
+
+    let dob = `${form.Yob.value?.year}-${form.Yob.value?.month}-${form.Yob.value?.day}`;
     if (this.addStudentForm.valid) {
       let newStudent = new Student(
-        null, form.Name.value, form.Age.value, year, form.Parents.value, form.Teacher.value, form.Class.value
+        null, form.Name.value, form.Age.value, dob, form.Parents.value, form.Teacher.value, form.Class.value
       )
       this.data.createStudent(newStudent).then(() => {
         alert("Thêm học sinh thành công");
@@ -69,10 +70,11 @@ export class StudentComponent implements OnInit {
   }
   updateStudent() {
     let form = this.updateStudentForm.controls;
-    let year = form.Yob.value?.year;
+    let dob = `${form.Yob.value?.year}-${form.Yob.value?.month}-${form.Yob.value?.day}`;
+
     if (this.updateStudentForm.valid) {
       let newStudent = new Student(
-        this.selectedStudent._id, form.Name.value, form.Age.value, year, form.Parents.value, form.Teacher.value, form.Class.value
+        this.selectedStudent._id, form.Name.value, form.Age.value, dob, form.Parents.value, form.Teacher.value, form.Class.value
       )
       this.data.updateStudent(newStudent).then(() => {
         alert("Cập nhật học sinh thành công");

@@ -17,10 +17,7 @@
           sinh</button>
       </div>
     </div>
-
-
   </div>
-
   <div>
     <div id="table">
       <table class="table align-middle">
@@ -83,10 +80,11 @@
         <label for="DOB">Ngày sinh</label>
         <div id="YobInput">
           <input type="text" ngbDatepicker #d="ngbDatepicker" placeholder="2021-12-04" formControlName="Yob" />
-          <button type="button" (click)="d.toggle()">Toggle</button>
+          <button type="button" (click)="d.toggle()" class="btn btn-primary">chọn ngày</button>
         </div>
         <br>
         <label for="Parents">Phụ huynh của học sinh:</label>
+        <br>
         <select NgbDropdownMenu aria-labelledby="parentsdropdown" formControlName="Parents">
           <option NgbDropdownItem *ngFor="let parent of this.parents" [ngValue]="parent._id">Họ tên
             cha:{{parent.DadName}} Họ tên mẹ:{{parent.MomName}}
@@ -94,12 +92,14 @@
         </select>
         <br>
         <label for="Teachers">Giáo viên của học sinh:</label>
+        <br>
         <select NgbDropdownMenu aria-labelledby="teacherdropdown" formControlName="Teacher">
           <option NgbDropdownItem *ngFor="let teacher of this.teachers" [ngValue]="teacher._id">{{teacher.Name}}
           </option>
         </select>
         <br>
         <label for="Classes">Lớp học của học sinh:</label>
+        <br>
         <select NgbDropdownMenu aria-labelledby="teacherdropdown" formControlName="Class">
           <option NgbDropdownItem *ngFor="let class of this.classes" [ngValue]="class._id">{{class.Room}}
           </option>
@@ -128,14 +128,14 @@
       <p>Tên :{{this.selectedStudent.Name}}</p>
       <p>Tuổi:{{this.selectedStudent.Age}}</p>
       <p>Ngày sinh:{{this.selectedStudent.Yob}}</p>
-      <p>Thông tin phụ huynh:<button (click)="openModal(studentParent)">Xem</button></p>
-      <p>Thông tin giáo viên:<button (click)="openModal(studentTeachers)">Xem</button></p>
-      <p>Thông tin lớp học:<button (click)="openModal(studentClasses)">Xem</button></p>
+      <p>Thông tin phụ huynh:<button (click)="openModal(studentParent)"class="btn btn-primary">Xem</button></p>
+      <p>Thông tin giáo viên:<button (click)="openModal(studentTeachers)" class="btn btn-primary">Xem</button></p>
+      <p>Thông tin lớp học:<button (click)="openModal(studentClasses)" class="btn btn-primary">Xem</button></p>
     </div>
   </div>
   <div class="modal-footer">
     <button type="button" class="btn btn-secondary" (click)="modalRef.hide()">Đóng</button>
-    <button type="submit" class="btn btn-primary" (click)="modalRef.hide()">Thêm mới</button>
+
   </div>
 
 </ng-template>
