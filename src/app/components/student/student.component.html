@@ -11,7 +11,8 @@
         </button>
 
       </div>
-      <button type="button" class="btn btn-primary" (click)="openModal(addstudent)">Thêm học sinh</button>
+      <button type="button" class="btn btn-primary" (click)="this.getAllClass();this.getAllParent();this.getAllTeacher();openModal(addstudent)">Thêm học
+        sinh</button>
     </div>
 
   </div>
@@ -41,7 +42,8 @@
             <td>{{student.Teacher}}</td>
             <td>{{student.Class}}</td>
             <td>
-              <button type="button" class="btn btn-success btn-sm px-3" (click)="this.getStudentDetail(student._id);openModal(studentdetail)">
+              <button type="button" class="btn btn-success btn-sm px-3"
+                (click)="this.getStudentDetail(student._id);openModal(studentdetail)">
                 Chi tiết
               </button>
               <button type="button" class="btn btn-primary btn-sm px-3" (click)="openModal(updatestudent)">
@@ -77,10 +79,24 @@
           <input type="text" ngbDatepicker #d="ngbDatepicker" placeholder="2021-12-04" />
           <button (click)="d.toggle()">Toggle</button>
         </div>
-        <label for="exampleInputEmail1">Id Phụ huynh</label>
-        <input type="email" class="form-control" placeholder="Nhập Id Phụ huynh">
-        <label for="exampleInputEmail1">Id Giáo viên</label>
-        <input type="email" class="form-control" placeholder="Nhập Id Giáo viên">
+        <br>
+        <label for="exampleInputEmail1">Phụ huynh của học sinh:</label>
+        <select NgbDropdownMenu aria-labelledby="parentsdropdown">
+          <option NgbDropdownItem *ngFor="let parent of this.parents" [ngValue]="parent._id">Họ tên cha:{{parent.DadName}} Họ tên mẹ:{{parent.MomName}}
+          </option>
+        </select>
+        <br>
+        <label for="exampleInputEmail1">Giáo viên của học sinh:</label>
+        <select NgbDropdownMenu aria-labelledby="teacherdropdown">
+          <option NgbDropdownItem *ngFor="let teacher of this.teachers" [ngValue]="teacher._id">{{teacher.Name}}
+          </option>
+        </select>
+        <br>
+        <label for="exampleInputEmail1">Lớp học của học sinh:</label>
+        <select NgbDropdownMenu aria-labelledby="teacherdropdown">
+          <option NgbDropdownItem *ngFor="let class of this.classes" [ngValue]="class._id">{{class.Room}}
+          </option>
+        </select>
       </div>
     </div>
     <div class="modal-footer">
@@ -105,9 +121,9 @@
       <p>Tên :{{this.selectedStudent.Name}}</p>
       <p>Tuổi:{{this.selectedStudent.Age}}</p>
       <p>Ngày sinh:{{this.selectedStudent.Yob}}</p>
-      <p>Số lượng Phụ huynh: {{this.selectedStudent.Parents.length}}<button (click)="openModal(studentParent)">Xem</button></p>
-      <p>ID Giáo viên:</p>
-      <p>ID Lớp học:</p>
+      <p>Thông tin phụ huynh:<button (click)="openModal(studentParent)">Xem</button></p>
+      <p>Thông tin giáo viên:<button (click)="openModal(studentTeachers)">Xem</button></p>
+      <p>Thông tin lớp học:<button (click)="openModal(studentClasses)">Xem</button></p>
     </div>
   </div>
   <div class="modal-footer">
@@ -158,33 +174,107 @@
     </button>
   </div>
 
-    <div class="modal-body">
-      <div>
-        <div id="table">
-          <table class="table align-middle">
-            <thead>
-              <tr>
-                <th scope="col">ID </th>
-                <th scope="col">DadName</th>
-                <th scope="col">MomName</th>
-                <th scope="col">Address</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr scope="row" *ngFor="let parent of this.selectedStudent.Parents">
-                <td>{{parent._id}}</td>
-                <td>{{parent.DadName}}</td>
-                <td>{{parent.MomName}}</td>
-                <td>{{parent.Address}}</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
+  <div class="modal-body">
+    <div>
+      <div id="table">
+        <table class="table align-middle">
+          <thead>
+            <tr>
+              <th scope="col">ID </th>
+              <th scope="col">DadName</th>
+              <th scope="col">MomName</th>
+              <th scope="col">Address</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr scope="row" *ngFor="let parent of this.selectedStudent.Parents">
+              <td>{{parent._id}}</td>
+              <td>{{parent.DadName}}</td>
+              <td>{{parent.MomName}}</td>
+              <td>{{parent.Address}}</td>
+            </tr>
+          </tbody>
+        </table>
       </div>
     </div>
-    <div class="modal-footer">
-      <button type="button" class="btn btn-secondary" (click)="modalRef.hide()">Đóng</button>
-      <button type="submit" class="btn btn-primary">Thêm mới</button>
+  </div>
+  <div class="modal-footer">
+
+  </div>
+
+</ng-template>
+
+<ng-template #studentTeachers>
+  <div class="modal-header">
+    <h4 class="modal-title pull-left">Giáo viên của học sinh: {{this.selectedStudent.Name}}</h4>
+    <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+      <span aria-hidden="true">×</span>
+    </button>
+  </div>
+
+  <div class="modal-body">
+    <div>
+      <div id="table">
+        <table class="table align-middle">
+          <thead>
+            <tr>
+              <th scope="col">ID </th>
+              <th scope="col">Name</th>
+              <th scope="col">Age</th>
+              <th scope="col">Address</th>
+              <th scope="col">Subjects</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr scope="row" *ngFor="let teacher of this.selectedStudent.Teacher">
+              <td>{{teacher._id}}</td>
+              <td>{{teacher.Name}}</td>
+              <td>{{teacher.Age}}</td>
+              <td>{{teacher.Address}}</td>
+              <td>
+                <p *ngFor="let subject of teacher.Subject">{{subject}}</p>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
     </div>
+  </div>
+  <div class="modal-footer">
+
+  </div>
+</ng-template>
+<ng-template #studentClasses>
+  <div class="modal-header">
+    <h4 class="modal-title pull-left">Lớp học của học sinh: {{this.selectedStudent.Name}}</h4>
+    <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+      <span aria-hidden="true">×</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div>
+      <div id="table">
+        <table class="table align-middle">
+          <thead>
+            <tr>
+              <th scope="col">ID </th>
+              <th scope="col">Room</th>
+              <th scope="col">Description</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr scope="row" *ngFor="let class of this.selectedStudent.Class">
+              <td>{{class._id}}</td>
+              <td>{{class.Room}}</td>
+              <td>{{class.Description}}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+
+  </div>
 
 </ng-template>
