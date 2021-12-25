@@ -1,0 +1,123 @@
+<div id="contentbody">
+  <h1 id="componentTitle">DANH SÁCH LỚP HỌC</h1>
+
+  <div class="input-group" id="search_div">
+    <div class="form-outline">
+      <label class="form-label" for="form1">Search</label>
+      <div style="display: flex;flex-direction: row;">
+        <input type="search" id="searchKeyword" class="form-control" />
+        <button type="button" class="btn btn-primary" (click)="this.searchClass()">
+          Search
+        </button>
+
+      </div>
+      <div id="addClassbtn">
+        <button type="button" class="btn btn-primary"
+          (click)="this.getAllClass();this.getAllClass();openModal(addClass)">Thêm lớp học</button>
+      </div>
+    </div>
+  </div>
+  <div>
+    <div id="table">
+      <table class="table align-middle">
+        <thead>
+          <tr>
+            <th scope="col">ID </th>
+            <th scope="col">Room</th>
+            <th scope="col">Description</th>
+            <th scope="col">Chức năng</th>
+          </tr>
+        </thead>
+        <tbody *ngFor="let class of this.classes | paginate: { itemsPerPage: 5, currentPage: this.p }">
+          <tr scope="row">
+            <td>{{class._id}}</td>
+            <td>{{class.Room}}</td>
+            <td>{{class.Description}}</td>
+            <td>
+              <button type="button" class="btn btn-success btn-sm px-3"
+                (click)="this.getClassDetail(class._id);openModal(Classdetail)">
+                Chi tiết
+              </button>
+              <button type="button" class="btn btn-primary btn-sm px-3"
+                (click)="this.getAllClass();this.fillUpdateClassForm(class._id);openModal(updateClassmodal)">
+                Cập nhật
+              </button>
+              <button type="button" class="btn btn-danger btn-sm px-3" (click)="this.deleteClass(class._id)">
+                Xóa
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <pagination-controls (pageChange)="p = $event"></pagination-controls>
+    </div>
+  </div>
+</div>
+
+<ng-template #addClass>
+  <div class="modal-header">
+    <h4 class="modal-title pull-left">Thêm lớp học mới</h4>
+    <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+      <span aria-hidden="true">×</span>
+    </button>
+  </div>
+  <form [formGroup]="addClassForm" (ngSubmit)="addNewClass()">
+    <div class="modal-body">
+      <div id="addForm">
+
+        <label for="Age">Chi tiết lớp học</label>
+        <input type="text" class="form-control" placeholder="Nhập chi tiết" formControlName="Description">
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-secondary" (click)="modalRef.hide()">Đóng</button>
+      <button type="submit" class="btn btn-primary">Thêm mới</button>
+    </div>
+  </form>
+</ng-template>
+
+
+<ng-template #Classdetail>
+  <div class="modal-header">
+    <h4 class="modal-title pull-left">Chi tiết của lớp học</h4>
+    <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+      <span aria-hidden="true">×</span>
+    </button>
+  </div>
+
+  <div class="modal-body">
+    <div id="addForm">
+      <h2>ID lớp học:<b> {{this.selectedClass._id}}</b></h2>
+      <p>Tên lớp học : <b>{{this.selectedClass.Room}}</b></p>
+      <p>Chi tiết lớp học: <b>{{this.selectedClass.Description}}</b></p>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-secondary" (click)="modalRef.hide()">Đóng</button>
+
+  </div>
+
+</ng-template>
+
+<ng-template #updateClassmodal>
+  <div class="modal-header">
+    <h4 class="modal-title pull-left">Cập nhật thông tin của lớp học</h4>
+    <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+      <span aria-hidden="true">×</span>
+    </button>
+  </div>
+  <form [formGroup]="updateClassForm" (ngSubmit)="this.updateClass()">
+    <div class="modal-body">
+      <div id="addForm">
+
+        <label for="Age">Chi tiết lớp học</label>
+        <input type="text" class="form-control" placeholder="Nhập chi tiết" formControlName="Description">
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-secondary" (click)="modalRef.hide()">Đóng</button>
+      <button type="submit" class="btn btn-primary" (click)="modalRef.hide()">Cập nhật</button>
+    </div>
+  </form>
+</ng-template>
+

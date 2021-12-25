@@ -1,0 +1,125 @@
+<div id="contentbody">
+  <h1 id="componentTitle">DANH SÁCH MÔN HỌC</h1>
+
+  <div class="input-group" id="search_div">
+    <div class="form-outline">
+      <label class="form-label" for="form1">Search</label>
+      <div style="display: flex;flex-direction: row;">
+        <input type="search" id="searchKeyword" class="form-control" />
+        <button type="button" class="btn btn-primary" (click)="this.searchSubject()">
+          Search
+        </button>
+
+      </div>
+      <div id="addSubjectbtn">
+        <button type="button" class="btn btn-primary"
+          (click)="this.getAllSubject();this.getAllSubject();openModal(addSubject)">Thêm môn học</button>
+      </div>
+    </div>
+  </div>
+  <div>
+    <div id="table">
+      <table class="table align-middle">
+        <thead>
+          <tr>
+            <th scope="col">ID </th>
+            <th scope="col">Title</th>
+            <th scope="col">Description</th>
+            <th scope="col">Chức năng</th>
+          </tr>
+        </thead>
+        <tbody *ngFor="let subject of this.subjects | paginate: { itemsPerPage: 5, currentPage: this.p }">
+          <tr scope="row">
+            <td>{{subject._id}}</td>
+            <td>{{subject.Title}}</td>
+            <td>{{subject.Description}}</td>
+            <td>
+              <button type="button" class="btn btn-success btn-sm px-3"
+                (click)="this.getSubjectDetail(subject._id);openModal(Subjectdetail)">
+                Chi tiết
+              </button>
+              <button type="button" class="btn btn-primary btn-sm px-3"
+                (click)="this.getAllSubject();this.fillUpdateSubjectForm(subject._id);openModal(updateSubjectmodal)">
+                Cập nhật
+              </button>
+              <button type="button" class="btn btn-danger btn-sm px-3" (click)="this.deleteSubject(subject._id)">
+                Xóa
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <pagination-controls (pageChange)="p = $event"></pagination-controls>
+    </div>
+  </div>
+</div>
+
+<ng-template #addSubject>
+  <div class="modal-header">
+    <h4 class="modal-title pull-left">Thêm môn học mới</h4>
+    <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+      <span aria-hidden="true">×</span>
+    </button>
+  </div>
+  <form [formGroup]="addSubjectForm" (ngSubmit)="addNewSubject()">
+    <div class="modal-body">
+      <div id="addForm">
+        <label for="Name">Tên môn</label>
+        <input type="text" class="form-control" placeholder="Nhập tên" formControlName="Title">
+        <label for="Age">Chi tiết môn học</label>
+        <input type="text" class="form-control" placeholder="Nhập chi tiết" formControlName="Description">
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-secondary" (click)="modalRef.hide()">Đóng</button>
+      <button type="submit" class="btn btn-primary">Thêm mới</button>
+    </div>
+  </form>
+</ng-template>
+
+
+<ng-template #Subjectdetail>
+  <div class="modal-header">
+    <h4 class="modal-title pull-left">Chi tiết của môn học</h4>
+    <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+      <span aria-hidden="true">×</span>
+    </button>
+  </div>
+
+  <div class="modal-body">
+    <div id="addForm">
+      <h2>ID môn học:<b> {{this.selectedSubject._id}}</b></h2>
+      <p>Tên môn : <b>{{this.selectedSubject.Title}}</b></p>
+      <p>Chi tiết môn học: <b>{{this.selectedSubject.Description}}</b></p>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-secondary" (click)="modalRef.hide()">Đóng</button>
+
+  </div>
+
+</ng-template>
+
+<ng-template #updateSubjectmodal>
+  <div class="modal-header">
+    <h4 class="modal-title pull-left">Cập nhật thông tin của môn học</h4>
+    <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+      <span aria-hidden="true">×</span>
+    </button>
+  </div>
+  <form [formGroup]="updateSubjectForm" (ngSubmit)="this.updateSubject()">
+    <div class="modal-body">
+      <div id="addForm">
+        <label for="Name">Tên môn</label>
+        <input type="text" class="form-control" placeholder="Nhập tên" formControlName="Title">
+        <label for="Age">Chi tiết môn học</label>
+        <input type="text" class="form-control" placeholder="Nhập chi tiết" formControlName="Description">
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-secondary" (click)="modalRef.hide()">Đóng</button>
+      <button type="submit" class="btn btn-primary" (click)="modalRef.hide()">Cập nhật</button>
+    </div>
+  </form>
+</ng-template>
+
