@@ -60,7 +60,7 @@
             </div>
             <img *ngIf="!user.photoURL" style="width:3rem;" class="bg-info rounded-circle"
                 src="https://icon-library.com/images/default-profile-icon/default-profile-icon-16.jpg" alt="photo" />
-            <img *ngIf="user.photoURL" style="width:3rem;" class="bg-info rounded-circle" src="user.photoURL"
+            <img *ngIf="user.photoURL" style="width:3rem;" class="bg-info rounded-circle" src="{{user.photoURL}}"
                 alt="photo" />
             <button (click)="logout()" style="border: none;background: none;"><svg xmlns="http://www.w3.org/2000/svg" width="30"
                     height="30" fill="currentColor" class="bi bi-box-arrow-right" viewBox="0 0 16 16">
