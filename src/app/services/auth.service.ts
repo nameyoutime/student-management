@@ -19,22 +19,19 @@ export class AuthService {
       if (user) {
         this.user = user;
         this.showBar = true;
-        console.log(user);
-        this.router.navigate(["/"])
-      }
-      else {
-        this.router.navigate(["/auth/login"]);
       }
     })
   }
 
-  isUser() {
-
+  getUser() {
+    return this.user;
   }
   async loginWithEmail(email: string, password: string) {
     return await this.afAuth.signInWithEmailAndPassword(email, password)
       .then((user) => {
         this.user = user;
+        this.router.navigate(["/"])
+
       })
       .catch(error => {
         console.log(error)
@@ -45,7 +42,9 @@ export class AuthService {
   async registerWithEmail(email: string, password: string) {
     return await this.afAuth.createUserWithEmailAndPassword(email, password)
       .then((user) => {
-        this.user = user
+        this.user = user;
+        this.router.navigate(["/"])
+
       })
       .catch(error => {
         console.log(error)
@@ -60,6 +59,7 @@ export class AuthService {
   async logout() {
     await this.afAuth.signOut().then(() => {
       this.showBar = false;
+
     });
   }
 }
