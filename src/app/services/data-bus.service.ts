@@ -34,13 +34,32 @@ export class DataBUSService {
     try {
       let result;
       await this.http.post(this.URL + `student/`, { student }).toPromise().then(() => {
-        result=true
+        result = true
       })
       return result;
-    }catch{return false}
+    } catch { return false }
 
   }
+  async updateStudent(student: Student) {
+    try {
+      let result;
+      await this.http.put(this.URL + `student/${student._id}`, { student }).toPromise().then(() => {
+        result = true
+      })
+      return result;
+    } catch { return false }
 
+  }
+  async deteleStudent(Id: any) {
+    try {
+      let result;
+      await this.http.delete(this.URL + `student/${Id}`).toPromise().then(() => {
+        result = true
+      })
+      return result;
+    } catch { return false }
+
+  }
   /////End Student
 
   ///Teacher

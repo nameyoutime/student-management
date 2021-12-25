@@ -46,10 +46,10 @@
                 (click)="this.getStudentDetail(student._id);openModal(studentdetail)">
                 Chi tiết
               </button>
-              <button type="button" class="btn btn-primary btn-sm px-3" (click)="openModal(updatestudent)">
+              <button type="button" class="btn btn-primary btn-sm px-3" (click)="this.fillUpdateStudentForm(student._id);openModal(updatestudent)">
                 Cập nhật
               </button>
-              <button type="button" class="btn btn-danger btn-sm px-3">
+              <button type="button" class="btn btn-danger btn-sm px-3" (click)="this.deleteStudent(student._id)">
                 Xóa
               </button>
             </td>
@@ -128,7 +128,7 @@
   </div>
   <div class="modal-footer">
     <button type="button" class="btn btn-secondary" (click)="modalRef.hide()">Đóng</button>
-    <button type="submit" class="btn btn-primary">Thêm mới</button>
+    <button type="submit" class="btn btn-primary" (click)="modalRef.hide()">Thêm mới</button>
   </div>
 
 </ng-template>
@@ -140,27 +140,41 @@
       <span aria-hidden="true">×</span>
     </button>
   </div>
-  <form [formGroup]="addStudentForm" >
+  <form [formGroup]="updateStudentForm" (ngSubmit)="updateStudent()" >
     <div class="modal-body">
       <div id="addForm">
-        <label for="exampleInputEmail1">Họ tên</label>
-        <input type="email" class="form-control" placeholder="Nhập tên">
-        <label for="exampleInputEmail1">Tuổi</label>
-        <input type="email" class="form-control" placeholder="Nhập tuổi">
-        <label for="exampleInputEmail1">Ngày sinh</label>
-        <div id="YobInput">
-          <input type="text" ngbDatepicker #d="ngbDatepicker" placeholder="2021-12-04" />
-          <button type="button" (click)="d.toggle()" >Toggle</button>
+        <label for="Name">Họ tên</label>
+        <input type="text" class="form-control" placeholder="Nhập tên" formControlName="Name">
+        <label for="Age" >Tuổi</label>
+        <input type="number" class="form-control" placeholder="Nhập tuổi" formControlName="Age">
+        <label for="DOB">Ngày sinh</label>
+        <div id="YobInput" >
+          <input type="text" ngbDatepicker #d="ngbDatepicker" placeholder="2021-12-04" formControlName="Yob"/>
+          <button type="button" (click)="d.toggle()">Toggle</button>
         </div>
-        <label for="exampleInputEmail1">Id Phụ huynh</label>
-        <input type="email" class="form-control" placeholder="Nhập Id Phụ huynh">
-        <label for="exampleInputEmail1">Id Giáo viên</label>
-        <input type="email" class="form-control" placeholder="Nhập Id Giáo viên">
+        <br>
+        <label for="Parents" >Phụ huynh của học sinh:</label>
+        <select NgbDropdownMenu aria-labelledby="parentsdropdown" formControlName="Parents">
+          <option NgbDropdownItem *ngFor="let parent of this.parents" [ngValue]="parent._id">Họ tên cha:{{parent.DadName}} Họ tên mẹ:{{parent.MomName}}
+          </option>
+        </select>
+        <br>
+        <label for="Teachers">Giáo viên của học sinh:</label>
+        <select NgbDropdownMenu aria-labelledby="teacherdropdown" formControlName="Teacher">
+          <option NgbDropdownItem *ngFor="let teacher of this.teachers" [ngValue]="teacher._id">{{teacher.Name}}
+          </option>
+        </select>
+        <br>
+        <label for="Classes">Lớp học của học sinh:</label>
+        <select NgbDropdownMenu aria-labelledby="teacherdropdown" formControlName="Class">
+          <option NgbDropdownItem *ngFor="let class of this.classes" [ngValue]="class._id">{{class.Room}}
+          </option>
+        </select>
       </div>
     </div>
     <div class="modal-footer">
       <button type="button" class="btn btn-secondary" (click)="modalRef.hide()">Đóng</button>
-      <button type="submit" class="btn btn-primary">Thêm mới</button>
+      <button type="submit" class="btn btn-primary" (click)="modalRef.hide()">Cập nhật</button>
     </div>
   </form>
 </ng-template>

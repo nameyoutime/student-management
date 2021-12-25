@@ -30,6 +30,14 @@ export class StudentComponent implements OnInit {
     Teacher: new FormControl('', []),
     Class: new FormControl('', []),
   })
+  updateStudentForm = new FormGroup({
+    Name: new FormControl('', [Validators.required]),
+    Age: new FormControl('', [Validators.required]),
+    Yob: new FormControl('', [Validators.required]),
+    Parents: new FormControl('', []),
+    Teacher: new FormControl('', []),
+    Class: new FormControl('', []),
+  })
   modalRef: any;
   constructor(private modalService: BsModalService, public data: DataBUSService) {
     this.modalRef = BsModalRef
@@ -55,13 +63,57 @@ export class StudentComponent implements OnInit {
         alert("Thêm học sinh thành công");
         this.getAllStudent();
       });
-
     } else {
       alert("Vui lòng nhập đủ thông tin")
     }
-
+  }
+  updateStudent() {
+    let form = this.updateStudentForm.controls;
+    let year = form.Yob.value?.year;
+    if (this.updateStudentForm.valid) {
+      let newStudent = new Student(
+        this.selectedStudent._id, form.Name.value, form.Age.value, year, form.Parents.value, form.Teacher.value, form.Class.value
+      )
+      this.data.updateStudent(newStudent).then(() => {
+        alert("Cập nhật học sinh thành công");
+        this.getAllStudent();
+      });
+    } else {
+      alert("Vui lòng nhập đủ thông tin")
+    }
+  }
+  async deleteStudent(Id: any) {
+    await this.data.deteleStudent(Id).then(() => {
+      alert("Xóa thành công");
+      this.getAllStudent();
+    })
+  }
+  getStudentDetail(Id: any) {
+    this.data.getStudentDetail(Id).then(data => {
+      this.selectedStudent = data;
+    })
 
   }
+  //Support Function
+  async fillUpdateStudentForm(Id: any) {
+    await this.getStudentDetail(Id);
+    this.getAllTeacher();
+    this.getAllParent();
+    this.getAllClass();
+
+    setTimeout(() => {
+      this.updateStudentForm.setValue({
+        Name: this.selectedStudent.Name,
+        Age: this.selectedStudent.Age,
+        Yob: this.selectedStudent.Yob,
+        Parents: this.selectedStudent.Parents[0]._id,
+        Teacher: this.selectedStudent.Teacher[0]._id,
+        Class: this.selectedStudent.Class[0]._id,
+      })
+    }, 250)
+
+  }
+
   getAllTeacher() {
     this.data.getAllTeacher().then(data => {
       this.teachers = data;
@@ -77,15 +129,9 @@ export class StudentComponent implements OnInit {
       this.classes = data;
     })
   }
-  getStudentDetail(Id: any) {
-    this.data.getStudentDetail(Id).then(data => {
-      this.selectedStudent = data;
-    })
-
-  }
-
   openModal(template: TemplateRef<any>) {
     this.modalRef = this.modalService.show(template, { class: 'modal-lg' });
   }
+  //End Support Function
 
 }
