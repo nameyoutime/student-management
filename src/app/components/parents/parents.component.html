@@ -1,1 +1,132 @@
-<p>parents works!</p>
+<div id="contentbody">
+  <h1 id="componentTitle">DANH SÁCH PHỤ HUYNH</h1>
+
+  <div class="input-group" id="search_div">
+    <div class="form-outline">
+      <label class="form-label" for="form1">Search</label>
+      <div style="display: flex;flex-direction: row;">
+        <input type="search" id="searchKeyword" class="form-control" />
+        <button type="button" class="btn btn-primary" (click)="this.searchParents()">
+          Search
+        </button>
+
+      </div>
+      <div id="addParentsbtn">
+        <button type="button" class="btn btn-primary"
+          (click)="this.getAllParents();this.getAllParents();openModal(addParents)">Thêm phụ huynh</button>
+      </div>
+    </div>
+  </div>
+  <div>
+    <div id="table">
+      <table class="table align-middle">
+        <thead>
+          <tr>
+            <th scope="col">ID </th>
+            <th scope="col">Tên cha</th>
+            <th scope="col">Tên mẹ</th>
+            <th scope="col">Địa chỉ</th>
+            <th scope="col">Chức năng</th>
+          </tr>
+        </thead>
+        <tbody *ngFor="let parent of this.parentsList | paginate: { itemsPerPage: 5, currentPage: this.p }">
+          <tr scope="row">
+            <td>{{parent._id}}</td>
+            <td>{{parent.DadName}}</td>
+            <td>{{parent.MomName}}</td>
+            <td>{{parent.Address}}</td>
+            <td>
+              <button type="button" class="btn btn-success btn-sm px-3"
+                (click)="this.getParentsDetail(parent._id);openModal(Parentsdetail)">
+                Chi tiết
+              </button>
+              <button type="button" class="btn btn-primary btn-sm px-3"
+                (click)="this.getAllParents();this.fillUpdateParentsForm(parent._id);openModal(updateParentsmodal)">
+                Cập nhật
+              </button>
+              <button type="button" class="btn btn-danger btn-sm px-3" (click)="this.deleteParents(parent._id)">
+                Xóa
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <pagination-controls (pageChange)="p = $event"></pagination-controls>
+    </div>
+  </div>
+</div>
+
+<ng-template #addParents>
+  <div class="modal-header">
+    <h4 class="modal-title pull-left">Thêm phụ huynh mới</h4>
+    <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+      <span aria-hidden="true">×</span>
+    </button>
+  </div>
+  <form [formGroup]="addParentForm" (ngSubmit)="addNewParents()">
+    <div class="modal-body">
+      <div id="addForm">
+        <label for="Name">Tên cha</label>
+        <input type="text" class="form-control" placeholder="Nhập tên" formControlName="DadName">
+        <label for="Age">Tên mẹ</label>
+        <input type="text" class="form-control" placeholder="Nhập chi tiết" formControlName="MomName">
+        <label for="Age">Địa chỉ</label>
+        <input type="text" class="form-control" placeholder="Nhập chi tiết" formControlName="Address">
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-secondary" (click)="modalRef.hide()">Đóng</button>
+      <button type="submit" class="btn btn-primary">Thêm mới</button>
+    </div>
+  </form>
+</ng-template>
+
+
+<ng-template #Parentsdetail>
+  <div class="modal-header">
+    <h4 class="modal-title pull-left">Chi tiết của môn học</h4>
+    <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+      <span aria-hidden="true">×</span>
+    </button>
+  </div>
+
+  <div class="modal-body">
+    <div id="addForm">
+      <h2>ID Phụ huynh:<b> {{this.selectedParents._id}}</b></h2>
+      <p>Tên cha : <b>{{this.selectedParents.DadName}}</b></p>
+      <p>Tên mẹ : <b>{{this.selectedParents.MomName}}</b></p>
+      <p>Địa chỉ: <b>{{this.selectedParents.Address}}</b></p>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-secondary" (click)="modalRef.hide()">Đóng</button>
+
+  </div>
+
+</ng-template>
+
+<ng-template #updateParentsmodal>
+  <div class="modal-header">
+    <h4 class="modal-title pull-left">Cập nhật thông tin của phụ huynh</h4>
+    <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+      <span aria-hidden="true">×</span>
+    </button>
+  </div>
+  <form [formGroup]="updateParentForm" (ngSubmit)="this.updateParents()">
+    <div class="modal-body">
+      <div id="addForm">
+        <label for="Name">Tên cha</label>
+        <input type="text" class="form-control" placeholder="Nhập tên cha" formControlName="DadName">
+        <label for="Age">Tên mẹ</label>
+        <input type="text" class="form-control" placeholder="Nhập tên mẹ" formControlName="MomName">
+        <label for="Age">Địa chỉ</label>
+        <input type="text" class="form-control" placeholder="Nhập chi tiết" formControlName="Address">
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-secondary" (click)="modalRef.hide()">Đóng</button>
+      <button type="submit" class="btn btn-primary" (click)="modalRef.hide()">Cập nhật</button>
+    </div>
+  </form>
+</ng-template>
+

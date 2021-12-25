@@ -4,6 +4,7 @@ import { Student } from '../models/Student.model';
 import { Teacher } from '../models/Teacher.model';
 import { Subject } from '../models/Subject.model';
 import { Class } from '../models/Class.model';
+import { Parent } from '../models/Parent.model';
 @Injectable({
   providedIn: 'root'
 })
@@ -13,8 +14,8 @@ export class DataBUSService {
   public student: any
   public teacherList: any;
   public teacher: any;
-  public parentList: any;
-  public parent: any;
+  public parentsList: any;
+  public parents: any;
   public classList: any;
   public class: any;
   public subjectList: any;
@@ -132,9 +133,54 @@ export class DataBUSService {
   ///Parent
   async getAllParent() {
     await this.http.get(this.URL + "parents/").toPromise().then(async data => {
-      this.parentList = data
+      this.parentsList = data
     })
-    return this.parentList.data
+    return this.parentsList.data
+  }
+  async getParentsDetail(Id: any) {
+    await this.http.get(this.URL + `parents/${Id}`).toPromise().then(data => {
+      this.parents=data
+    })
+    return this.parents.data;
+  }
+  async createParents(parents: Parent) {
+    try {
+
+      let result;
+      await this.http.post(this.URL + `parents/`, { parents }).toPromise().then(() => {
+        result = true
+      })
+      return result;
+    } catch { return false }
+
+  }
+  async updateParents(parents: Parent) {
+    try {
+      let result;
+      await this.http.put(this.URL + `parents/${parents._id}`, { parents }).toPromise().then(() => {
+        result = true
+      })
+      return result;
+    } catch { return false }
+
+  }
+  async deteleParents(Id: any) {
+    try {
+      let result;
+      await this.http.delete(this.URL + `parents/${Id}`).toPromise().then(() => {
+        result = true
+      })
+      return result;
+    } catch { return false }
+
+  }
+  async searchParents(keyword: any) {
+
+    await this.http.get(this.URL + `parents/keyword/${keyword}`).toPromise().then(data => {
+
+      return this.parentsList = data
+    })
+    return this.parentsList.data
   }
   ///EndParent
   ///Class
