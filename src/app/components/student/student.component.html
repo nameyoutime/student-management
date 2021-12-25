@@ -78,10 +78,7 @@
         <label for="Age">Tuổi</label>
         <input type="number" class="form-control" placeholder="Nhập tuổi" formControlName="Age">
         <label for="DOB">Ngày sinh</label>
-        <div id="YobInput">
-          <input type="text" ngbDatepicker #d="ngbDatepicker" placeholder="2021-12-04" formControlName="Yob" />
-          <button type="button" (click)="d.toggle()" class="btn btn-primary">chọn ngày</button>
-        </div>
+          <input type="text" class="form-control" placeholder="2021-12-24" formControlName="Yob">
         <br>
         <label for="Parents">Phụ huynh của học sinh:</label>
         <br>
@@ -124,11 +121,11 @@
 
   <div class="modal-body">
     <div id="addForm">
-      <h2>ID học sinh:{{this.selectedStudent._id}}<b></b></h2>
-      <p>Tên :{{this.selectedStudent.Name}}</p>
-      <p>Tuổi:{{this.selectedStudent.Age}}</p>
-      <p>Ngày sinh:{{this.selectedStudent.Yob}}</p>
-      <p>Thông tin phụ huynh:<button (click)="openModal(studentParent)"class="btn btn-primary">Xem</button></p>
+      <h2>ID học sinh:<b> {{this.selectedStudent._id}}</b></h2>
+      <p>Tên : <b>{{this.selectedStudent.Name}}</b></p>
+      <p>Tuổi: <b>{{this.selectedStudent.Age}}</b></p>
+      <p>Ngày sinh:<b>{{this.selectedStudent.Yob}}</b></p>
+      <p>Thông tin phụ huynh:<button (click)="openModal(studentParent)" class="btn btn-primary">Xem</button></p>
       <p>Thông tin giáo viên:<button (click)="openModal(studentTeachers)" class="btn btn-primary">Xem</button></p>
       <p>Thông tin lớp học:<button (click)="openModal(studentClasses)" class="btn btn-primary">Xem</button></p>
     </div>
@@ -155,12 +152,10 @@
         <label for="Age">Tuổi</label>
         <input type="number" class="form-control" placeholder="Nhập tuổi" formControlName="Age">
         <label for="DOB">Ngày sinh</label>
-        <div id="YobInput">
-          <input type="text" ngbDatepicker #d="ngbDatepicker" placeholder="2021-12-04" formControlName="Yob" />
-          <button type="button" (click)="d.toggle()">Toggle</button>
-        </div>
+          <input type="text" class="form-control" placeholder="2021-12-24" formControlName="Yob">
         <br>
         <label for="Parents">Phụ huynh của học sinh:</label>
+        <br>
         <select NgbDropdownMenu aria-labelledby="parentsdropdown" formControlName="Parents">
           <option NgbDropdownItem *ngFor="let parent of this.parents" [ngValue]="parent._id">Họ tên
             cha:{{parent.DadName}} Họ tên mẹ:{{parent.MomName}}
@@ -168,12 +163,14 @@
         </select>
         <br>
         <label for="Teachers">Giáo viên của học sinh:</label>
+        <br>
         <select NgbDropdownMenu aria-labelledby="teacherdropdown" formControlName="Teacher">
           <option NgbDropdownItem *ngFor="let teacher of this.teachers" [ngValue]="teacher._id">{{teacher.Name}}
           </option>
         </select>
         <br>
         <label for="Classes">Lớp học của học sinh:</label>
+        <br>
         <select NgbDropdownMenu aria-labelledby="teacherdropdown" formControlName="Class">
           <option NgbDropdownItem *ngFor="let class of this.classes" [ngValue]="class._id">{{class.Room}}
           </option>
