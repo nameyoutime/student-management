@@ -230,7 +230,7 @@ export class DataBUSService {
 
   }
   async searchClass(keyword: any) {
-
+    console.log(keyword)
     await this.http.get(this.URL + `class/keyword/${keyword}`).toPromise().then(data => {
 
       return this.classList = data
