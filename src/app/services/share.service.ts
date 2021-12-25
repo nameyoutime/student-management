@@ -4,10 +4,11 @@ import { Injectable } from '@angular/core';
   providedIn: 'root'
 })
 export class ShareService {
-  public isSideBarCollapsed:boolean = true;
-  public isNavBarCollapsed:boolean = true;
+  public isSideBarCollapsed: boolean = true;
+  public isNavBarCollapsed: boolean = true;
 
-  public collapSidebar(){
+
+  public collapSidebar() {
     this.isSideBarCollapsed = !this.isSideBarCollapsed;
     console.log(this.isSideBarCollapsed)
   }
