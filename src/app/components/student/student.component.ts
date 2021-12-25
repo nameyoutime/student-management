@@ -1,9 +1,9 @@
 import { DataBUSService } from './../../services/data-bus.service';
 import { Observable } from 'rxjs';
 import { Student } from './../../models/Student.model';
-
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Component, OnInit, TemplateRef } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { Teacher } from 'src/app/models/Teacher.model';
 import { Parent } from 'src/app/models/Parent.model';
@@ -22,7 +22,14 @@ export class StudentComponent implements OnInit {
   public parents: Parent[] = [];
   public classes: Class[] = [];
   public selectedStudent: Student = new Student();
-  addStudentForm = new FormGroup({})
+  addStudentForm = new FormGroup({
+    Name: new FormControl('', [Validators.required]),
+    Age: new FormControl('', [Validators.required]),
+    Yob: new FormControl('', [Validators.required]),
+    Parents: new FormControl('', []),
+    Teacher: new FormControl('', []),
+    Class: new FormControl('', []),
+  })
   modalRef: any;
   constructor(private modalService: BsModalService, public data: DataBUSService) {
     this.modalRef = BsModalRef
@@ -36,6 +43,24 @@ export class StudentComponent implements OnInit {
     this.data.getAllStudent().then(data => {
       this.students = data;
     })
+  }
+  addNewStudent() {
+    let form = this.addStudentForm.controls;
+    let year = form.Yob.value?.year;
+    if (this.addStudentForm.valid) {
+      let newStudent = new Student(
+        null, form.Name.value, form.Age.value, year, form.Parents.value, form.Teacher.value, form.Class.value
+      )
+      this.data.createStudent(newStudent).then(() => {
+        alert("Thêm học sinh thành công");
+        this.getAllStudent();
+      });
+
+    } else {
+      alert("Vui lòng nhập đủ thông tin")
+    }
+
+
   }
   getAllTeacher() {
     this.data.getAllTeacher().then(data => {

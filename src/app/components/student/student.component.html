@@ -67,33 +67,33 @@
       <span aria-hidden="true">×</span>
     </button>
   </div>
-  <form [formGroup]="addStudentForm">
+  <form [formGroup]="addStudentForm" (ngSubmit)="addNewStudent()">
     <div class="modal-body">
       <div id="addForm">
-        <label for="exampleInputEmail1">Họ tên</label>
-        <input type="email" class="form-control" placeholder="Nhập tên">
-        <label for="exampleInputEmail1">Tuổi</label>
-        <input type="email" class="form-control" placeholder="Nhập tuổi">
-        <label for="exampleInputEmail1">Ngày sinh</label>
-        <div id="YobInput">
-          <input type="text" ngbDatepicker #d="ngbDatepicker" placeholder="2021-12-04" />
-          <button (click)="d.toggle()">Toggle</button>
+        <label for="Name">Họ tên</label>
+        <input type="text" class="form-control" placeholder="Nhập tên" formControlName="Name">
+        <label for="Age" >Tuổi</label>
+        <input type="number" class="form-control" placeholder="Nhập tuổi" formControlName="Age">
+        <label for="DOB">Ngày sinh</label>
+        <div id="YobInput" >
+          <input type="text" ngbDatepicker #d="ngbDatepicker" placeholder="2021-12-04" formControlName="Yob"/>
+          <button type="button" (click)="d.toggle()">Toggle</button>
         </div>
         <br>
-        <label for="exampleInputEmail1">Phụ huynh của học sinh:</label>
-        <select NgbDropdownMenu aria-labelledby="parentsdropdown">
+        <label for="Parents" >Phụ huynh của học sinh:</label>
+        <select NgbDropdownMenu aria-labelledby="parentsdropdown" formControlName="Parents">
           <option NgbDropdownItem *ngFor="let parent of this.parents" [ngValue]="parent._id">Họ tên cha:{{parent.DadName}} Họ tên mẹ:{{parent.MomName}}
           </option>
         </select>
         <br>
-        <label for="exampleInputEmail1">Giáo viên của học sinh:</label>
-        <select NgbDropdownMenu aria-labelledby="teacherdropdown">
+        <label for="Teachers">Giáo viên của học sinh:</label>
+        <select NgbDropdownMenu aria-labelledby="teacherdropdown" formControlName="Teacher">
           <option NgbDropdownItem *ngFor="let teacher of this.teachers" [ngValue]="teacher._id">{{teacher.Name}}
           </option>
         </select>
         <br>
-        <label for="exampleInputEmail1">Lớp học của học sinh:</label>
-        <select NgbDropdownMenu aria-labelledby="teacherdropdown">
+        <label for="Classes">Lớp học của học sinh:</label>
+        <select NgbDropdownMenu aria-labelledby="teacherdropdown" formControlName="Class">
           <option NgbDropdownItem *ngFor="let class of this.classes" [ngValue]="class._id">{{class.Room}}
           </option>
         </select>
@@ -140,7 +140,7 @@
       <span aria-hidden="true">×</span>
     </button>
   </div>
-  <form [formGroup]="addStudentForm">
+  <form [formGroup]="addStudentForm" >
     <div class="modal-body">
       <div id="addForm">
         <label for="exampleInputEmail1">Họ tên</label>
@@ -150,7 +150,7 @@
         <label for="exampleInputEmail1">Ngày sinh</label>
         <div id="YobInput">
           <input type="text" ngbDatepicker #d="ngbDatepicker" placeholder="2021-12-04" />
-          <button (click)="d.toggle()">Toggle</button>
+          <button type="button" (click)="d.toggle()" >Toggle</button>
         </div>
         <label for="exampleInputEmail1">Id Phụ huynh</label>
         <input type="email" class="form-control" placeholder="Nhập Id Phụ huynh">
