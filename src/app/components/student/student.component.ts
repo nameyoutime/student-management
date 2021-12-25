@@ -8,8 +8,7 @@ import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { Teacher } from 'src/app/models/Teacher.model';
 import { Parent } from 'src/app/models/Parent.model';
 import { Class } from 'src/app/models/Class.model';
-
-
+import {} from '../../shared/shared.module'
 @Component({
   selector: 'app-student',
   templateUrl: './student.component.html',
@@ -21,6 +20,7 @@ export class StudentComponent implements OnInit {
   public teachers: Teacher[] = [];
   public parents: Parent[] = [];
   public classes: Class[] = [];
+  p: any = 1;
   public selectedStudent: Student = new Student();
   addStudentForm = new FormGroup({
     Name: new FormControl('', [Validators.required]),
@@ -92,6 +92,19 @@ export class StudentComponent implements OnInit {
     this.data.getStudentDetail(Id).then(data => {
       this.selectedStudent = data;
     })
+
+  }
+  searchStudent() {
+    let keyword = (<HTMLInputElement>document.getElementById("searchKeyword")).value
+    if (keyword.trim()) {
+      this.data.searchStudent(keyword.trim()).then(data => {
+        console.log(data);
+        this.students = data
+      })
+    } else {
+      this.getAllStudent();
+    }
+
 
   }
   //Support Function

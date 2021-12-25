@@ -10,7 +10,7 @@ import { NgbDatepickerModule,NgbDropdownMenu } from '@ng-bootstrap/ng-bootstrap'
 import { SidebarComponent } from '../components/sidebar/sidebar.component';
 import { NavbarComponent } from '../components/navbar/navbar.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-
+import {NgxPaginationModule} from 'ngx-pagination';
 @NgModule({
   declarations: [StudentComponent,SidebarComponent,NavbarComponent],
   imports: [
@@ -19,11 +19,12 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     FormsModule,
     ReactiveFormsModule,
     NgbDatepickerModule,
-    NgbModule
+    NgbModule,
+    NgxPaginationModule
 
 
   ],
-  exports:[StudentComponent,ModalModule,FormsModule,ReactiveFormsModule,NgbDatepickerModule,SidebarComponent,CommonModule,NavbarComponent,NgbDropdownMenu],
+  exports:[StudentComponent,ModalModule,FormsModule,ReactiveFormsModule,NgbDatepickerModule,SidebarComponent,CommonModule,NavbarComponent,NgbDropdownMenu,NgxPaginationModule],
   providers:[BsModalService]
 })
 export class SharedModule { }

@@ -60,6 +60,14 @@ export class DataBUSService {
     } catch { return false }
 
   }
+  async searchStudent(keyword: any) {
+
+    await this.http.get(this.URL + `student/keyword/${keyword}`).toPromise().then(data => {
+
+      return this.studentList = data
+    })
+    return this.studentList.data
+  }
   /////End Student
 
   ///Teacher

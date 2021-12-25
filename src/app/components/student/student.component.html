@@ -1,19 +1,23 @@
 <div id="contentbody">
-  <h1>DANH SÁCH HỌC SINH</h1>
+  <h1 id="componentTitle">DANH SÁCH HỌC SINH</h1>
 
   <div class="input-group" id="search_div">
     <div class="form-outline">
       <label class="form-label" for="form1">Search</label>
       <div style="display: flex;flex-direction: row;">
-        <input type="search" id="form1" class="form-control" />
-        <button type="button" class="btn btn-primary">
+        <input type="search" id="searchKeyword" class="form-control" />
+        <button type="button" class="btn btn-primary" (click)="this.searchStudent()">
           Search
         </button>
 
       </div>
-      <button type="button" class="btn btn-primary" (click)="this.getAllClass();this.getAllParent();this.getAllTeacher();openModal(addstudent)">Thêm học
-        sinh</button>
+      <div id="addStudentbtn">
+        <button type="button" class="btn btn-primary"
+          (click)="this.getAllClass();this.getAllParent();this.getAllTeacher();openModal(addstudent)">Thêm học
+          sinh</button>
+      </div>
     </div>
+
 
   </div>
 
@@ -32,8 +36,8 @@
             <th scope="col">Chức năng</th>
           </tr>
         </thead>
-        <tbody>
-          <tr scope="row" *ngFor="let student of this.students">
+        <tbody *ngFor="let student of this.students | paginate: { itemsPerPage: 5, currentPage: this.p }">
+          <tr scope="row">
             <td>{{student._id}}</td>
             <td>{{student.Name}}</td>
             <td>{{student.Age}}</td>
@@ -46,7 +50,8 @@
                 (click)="this.getStudentDetail(student._id);openModal(studentdetail)">
                 Chi tiết
               </button>
-              <button type="button" class="btn btn-primary btn-sm px-3" (click)="this.fillUpdateStudentForm(student._id);openModal(updatestudent)">
+              <button type="button" class="btn btn-primary btn-sm px-3"
+                (click)="this.fillUpdateStudentForm(student._id);openModal(updatestudent)">
                 Cập nhật
               </button>
               <button type="button" class="btn btn-danger btn-sm px-3" (click)="this.deleteStudent(student._id)">
@@ -56,6 +61,7 @@
           </tr>
         </tbody>
       </table>
+      <pagination-controls (pageChange)="p = $event"></pagination-controls>
     </div>
   </div>
 </div>
@@ -72,17 +78,18 @@
       <div id="addForm">
         <label for="Name">Họ tên</label>
         <input type="text" class="form-control" placeholder="Nhập tên" formControlName="Name">
-        <label for="Age" >Tuổi</label>
+        <label for="Age">Tuổi</label>
         <input type="number" class="form-control" placeholder="Nhập tuổi" formControlName="Age">
         <label for="DOB">Ngày sinh</label>
-        <div id="YobInput" >
-          <input type="text" ngbDatepicker #d="ngbDatepicker" placeholder="2021-12-04" formControlName="Yob"/>
+        <div id="YobInput">
+          <input type="text" ngbDatepicker #d="ngbDatepicker" placeholder="2021-12-04" formControlName="Yob" />
           <button type="button" (click)="d.toggle()">Toggle</button>
         </div>
         <br>
-        <label for="Parents" >Phụ huynh của học sinh:</label>
+        <label for="Parents">Phụ huynh của học sinh:</label>
         <select NgbDropdownMenu aria-labelledby="parentsdropdown" formControlName="Parents">
-          <option NgbDropdownItem *ngFor="let parent of this.parents" [ngValue]="parent._id">Họ tên cha:{{parent.DadName}} Họ tên mẹ:{{parent.MomName}}
+          <option NgbDropdownItem *ngFor="let parent of this.parents" [ngValue]="parent._id">Họ tên
+            cha:{{parent.DadName}} Họ tên mẹ:{{parent.MomName}}
           </option>
         </select>
         <br>
@@ -140,22 +147,23 @@
       <span aria-hidden="true">×</span>
     </button>
   </div>
-  <form [formGroup]="updateStudentForm" (ngSubmit)="updateStudent()" >
+  <form [formGroup]="updateStudentForm" (ngSubmit)="updateStudent()">
     <div class="modal-body">
       <div id="addForm">
         <label for="Name">Họ tên</label>
         <input type="text" class="form-control" placeholder="Nhập tên" formControlName="Name">
-        <label for="Age" >Tuổi</label>
+        <label for="Age">Tuổi</label>
         <input type="number" class="form-control" placeholder="Nhập tuổi" formControlName="Age">
         <label for="DOB">Ngày sinh</label>
-        <div id="YobInput" >
-          <input type="text" ngbDatepicker #d="ngbDatepicker" placeholder="2021-12-04" formControlName="Yob"/>
+        <div id="YobInput">
+          <input type="text" ngbDatepicker #d="ngbDatepicker" placeholder="2021-12-04" formControlName="Yob" />
           <button type="button" (click)="d.toggle()">Toggle</button>
         </div>
         <br>
-        <label for="Parents" >Phụ huynh của học sinh:</label>
+        <label for="Parents">Phụ huynh của học sinh:</label>
         <select NgbDropdownMenu aria-labelledby="parentsdropdown" formControlName="Parents">
-          <option NgbDropdownItem *ngFor="let parent of this.parents" [ngValue]="parent._id">Họ tên cha:{{parent.DadName}} Họ tên mẹ:{{parent.MomName}}
+          <option NgbDropdownItem *ngFor="let parent of this.parents" [ngValue]="parent._id">Họ tên
+            cha:{{parent.DadName}} Họ tên mẹ:{{parent.MomName}}
           </option>
         </select>
         <br>
