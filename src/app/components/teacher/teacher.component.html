@@ -1,0 +1,186 @@
+<div id="contentbody">
+  <h1 id="componentTitle">DANH SÁCH GIÁO VIÊN</h1>
+
+  <div class="input-group" id="search_div">
+    <div class="form-outline">
+      <label class="form-label" for="form1">Search</label>
+      <div style="display: flex;flex-direction: row;">
+        <input type="search" id="searchKeyword" class="form-control" />
+        <button type="button" class="btn btn-primary" (click)="this.searchTeacher()">
+          Search
+        </button>
+
+      </div>
+      <div id="addTeacherbtn">
+        <button type="button" class="btn btn-primary"
+          (click)="this.getAllSubject();this.getAllTeacher();openModal(addTeacher)">Thêm giáo viên</button>
+      </div>
+    </div>
+  </div>
+  <div>
+    <div id="table">
+      <table class="table align-middle">
+        <thead>
+          <tr>
+            <th scope="col">ID </th>
+            <th scope="col">Name</th>
+            <th scope="col">Age</th>
+            <th scope="col">Address</th>
+            <th scope="col">SubjectId</th>
+            <th scope="col">Chức năng</th>
+          </tr>
+        </thead>
+        <tbody *ngFor="let Teacher of this.teachers | paginate: { itemsPerPage: 5, currentPage: this.p }">
+          <tr scope="row">
+            <td>{{Teacher._id}}</td>
+            <td>{{Teacher.Name}}</td>
+            <td>{{Teacher.Age}}</td>
+            <td>{{Teacher.Address}}</td>
+            <td>{{Teacher.Subject}}</td>
+            <td>
+              <button type="button" class="btn btn-success btn-sm px-3"
+                (click)="this.getTeacherDetail(Teacher._id);openModal(Teacherdetail)">
+                Chi tiết
+              </button>
+              <button type="button" class="btn btn-primary btn-sm px-3"
+                (click)="this.getAllSubject();this.fillUpdateTeacherForm(Teacher._id);openModal(updateTeachermodal)">
+                Cập nhật
+              </button>
+              <button type="button" class="btn btn-danger btn-sm px-3" (click)="this.deleteTeacher(Teacher._id)">
+                Xóa
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <pagination-controls (pageChange)="p = $event"></pagination-controls>
+    </div>
+  </div>
+</div>
+
+<ng-template #addTeacher>
+  <div class="modal-header">
+    <h4 class="modal-title pull-left">Thêm giáo viên mới</h4>
+    <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+      <span aria-hidden="true">×</span>
+    </button>
+  </div>
+  <form [formGroup]="addTeacherForm" (ngSubmit)="addNewTeacher()">
+    <div class="modal-body">
+      <div id="addForm">
+        <label for="Name">Họ tên</label>
+        <input type="text" class="form-control" placeholder="Nhập tên" formControlName="Name">
+        <label for="Age">Tuổi</label>
+        <input type="number" class="form-control" placeholder="Nhập tuổi" formControlName="Age">
+        <label for="DOB">Địa chỉ</label>
+          <input type="text" class="form-control" placeholder="Q3-P4" formControlName="Address">
+        <br>
+        <br>
+        <label for="Classes">Môn học đảm nhiệm:</label>
+        <br>
+        <select NgbDropdownMenu aria-labelledby="teacherdropdown" formControlName="Subject">
+          <option NgbDropdownItem *ngFor="let subject of this.subjects" [ngValue]="subject._id">{{subject.Title}}
+          </option>
+        </select>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-secondary" (click)="modalRef.hide()">Đóng</button>
+      <button type="submit" class="btn btn-primary">Thêm mới</button>
+    </div>
+  </form>
+</ng-template>
+
+
+<ng-template #Teacherdetail>
+  <div class="modal-header">
+    <h4 class="modal-title pull-left">Chi tiết của giáo viên</h4>
+    <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+      <span aria-hidden="true">×</span>
+    </button>
+  </div>
+
+  <div class="modal-body">
+    <div id="addForm">
+      <h2>ID giáo viên:<b> {{this.selectedTeacher._id}}</b></h2>
+      <p>Tên : <b>{{this.selectedTeacher.Name}}</b></p>
+      <p>Tuổi: <b>{{this.selectedTeacher.Age}}</b></p>
+      <p>Địa chỉ:<b>{{this.selectedTeacher.Address}}</b></p>
+      <p>Thông tin môn học đảm nhiệm:<button (click)="openModal(teacherSubjects)" class="btn btn-primary">Xem</button></p>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-secondary" (click)="modalRef.hide()">Đóng</button>
+
+  </div>
+
+</ng-template>
+
+<ng-template #updateTeachermodal>
+  <div class="modal-header">
+    <h4 class="modal-title pull-left">Cập nhật thông tin của giáo viên</h4>
+    <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+      <span aria-hidden="true">×</span>
+    </button>
+  </div>
+  <form [formGroup]="updateTeacherForm" (ngSubmit)="this.updateTeacher()">
+    <div class="modal-body">
+      <div id="addForm">
+        <label for="Name">Họ tên</label>
+        <input type="text" class="form-control" placeholder="Nhập tên" formControlName="Name">
+        <label for="Age">Tuổi</label>
+        <input type="number" class="form-control" placeholder="Nhập tuổi" formControlName="Age">
+        <label for="DOB">Địa chỉ</label>
+          <input type="text" class="form-control" placeholder="2021-12-24" formControlName="Address">
+        <br>
+        <br>
+        <label for="Classes">Môn học đảm nhiệm của giáo viên:</label>
+        <br>
+        <select NgbDropdownMenu aria-labelledby="subjectdropdown" formControlName="Subject">
+          <option NgbDropdownItem *ngFor="let subject of this.subjects" [ngValue]="subject._id">{{subject.Title}}
+          </option>
+        </select>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-secondary" (click)="modalRef.hide()">Đóng</button>
+      <button type="submit" class="btn btn-primary" (click)="modalRef.hide()">Cập nhật</button>
+    </div>
+  </form>
+</ng-template>
+
+
+<ng-template #teacherSubjects>
+  <div class="modal-header">
+    <h4 class="modal-title pull-left">Môn học đảm nhiệm của giáo viên: {{this.selectedTeacher.Name}}</h4>
+    <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+      <span aria-hidden="true">×</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div>
+      <div id="table">
+        <table class="table align-middle">
+          <thead>
+            <tr>
+              <th scope="col">ID </th>
+              <th scope="col">Tên môn học</th>
+              <th scope="col">Description</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr scope="row" *ngFor="let subject of this.selectedTeacher.Subject">
+              <td>{{subject._id}}</td>
+              <td>{{subject.Title}}</td>
+              <td>{{subject.Description}}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+
+  </div>
+
+</ng-template>

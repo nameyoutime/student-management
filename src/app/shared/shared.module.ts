@@ -11,9 +11,12 @@ import { SidebarComponent } from '../components/sidebar/sidebar.component';
 import { NavbarComponent } from '../components/navbar/navbar.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgxPaginationModule } from 'ngx-pagination';
-
+import { TeacherComponent } from '../components/teacher/teacher.component';
+import { ClassComponent } from '../components/class/class.component';
+import { ParentsComponent } from '../components/parents/parents.component';
+import { SubjectComponent } from '../components/subject/subject.component';
 @NgModule({
-  declarations: [StudentComponent, SidebarComponent, NavbarComponent],
+  declarations: [StudentComponent, SidebarComponent, NavbarComponent,TeacherComponent,ClassComponent,ParentsComponent,SubjectComponent],
   imports: [
     CommonModule,
     SharedRoutingModule,
@@ -25,7 +28,8 @@ import { NgxPaginationModule } from 'ngx-pagination';
 
 
   ],
-  exports: [StudentComponent, ModalModule, FormsModule, ReactiveFormsModule, NgbDatepickerModule, SidebarComponent, CommonModule, NavbarComponent, NgbDropdownMenu, NgxPaginationModule],
+  exports: [StudentComponent, ModalModule, FormsModule, ReactiveFormsModule, NgbDatepickerModule, SidebarComponent, CommonModule, NavbarComponent,
+    NgbDropdownMenu, NgxPaginationModule,TeacherComponent,ClassComponent,ParentsComponent,SubjectComponent],
   providers: [BsModalService]
 })
 export class SharedModule { }
