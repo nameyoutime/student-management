@@ -2,7 +2,8 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Student } from '../models/Student.model';
 import { Teacher } from '../models/Teacher.model';
-
+import { Subject } from '../models/Subject.model';
+import { Class } from '../models/Class.model';
 @Injectable({
   providedIn: 'root'
 })
@@ -143,11 +144,103 @@ export class DataBUSService {
     })
     return this.classList.data
   }
+  async getClassDetail(Id: any) {
+    await this.http.get(this.URL + `class/${Id}`).toPromise().then(data => {
+      this.class = data;
+    })
+    return this.class.data;
+  }
+  async createClass(newClass:Class) {
+    try {
+
+      let result;
+      await this.http.post(this.URL + `class/`, {
+      classes:{Description:newClass.Description }}).toPromise().then(() => {
+        result = true
+      })
+      return result;
+    } catch { return false }
+
+  }
+  async updateClass(newClass: Class) {
+    try {
+      let result;
+      await this.http.put(this.URL + `class/${newClass._id}`,{
+        classes:{Description:newClass.Description }}).toPromise().then(() => {
+        result = true
+      })
+      return result;
+    } catch { return false }
+
+  }
+  async deteleClass(Id: any) {
+    try {
+      let result;
+      await this.http.delete(this.URL + `class/${Id}`).toPromise().then(() => {
+        result = true
+      })
+      return result;
+    } catch { return false }
+
+  }
+  async searchClass(keyword: any) {
+
+    await this.http.get(this.URL + `class/keyword/${keyword}`).toPromise().then(data => {
+
+      return this.classList = data
+    })
+    return this.classList.data
+  }
   ///EndClass
   ///Subject
   async getAllSubject() {
     await this.http.get(this.URL + "subject/").toPromise().then(async data => {
       this.subjectList = data
+    })
+    return this.subjectList.data
+  }
+  async getSubjectDetail(Id: any) {
+    await this.http.get(this.URL + `subject/${Id}`).toPromise().then(data => {
+      this.subject = data;
+    })
+    return this.subject.data;
+  }
+  async createSubject(subject: Subject) {
+    try {
+
+      let result;
+      await this.http.post(this.URL + `subject/`, { subject }).toPromise().then(() => {
+        result = true
+      })
+      return result;
+    } catch { return false }
+
+  }
+  async updateSubject(subject: Subject) {
+    try {
+      let result;
+      await this.http.put(this.URL + `subject/${subject._id}`, { subject }).toPromise().then(() => {
+        result = true
+      })
+      return result;
+    } catch { return false }
+
+  }
+  async deteleSubject(Id: any) {
+    try {
+      let result;
+      await this.http.delete(this.URL + `subject/${Id}`).toPromise().then(() => {
+        result = true
+      })
+      return result;
+    } catch { return false }
+
+  }
+  async searchSubject(keyword: any) {
+
+    await this.http.get(this.URL + `subject/keyword/${keyword}`).toPromise().then(data => {
+
+      return this.subjectList = data
     })
     return this.subjectList.data
   }
