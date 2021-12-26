@@ -74,6 +74,12 @@ export class DataBUSService {
     })
     return this.studentList.data
   }
+  async sortStudent(field: any, sort: any) {
+    await this.http.get(this.URL + `student/sort/${field}?sort=${sort}`).toPromise().then(data => {
+      return this.studentList = data;
+    })
+    return this.studentList.data
+  }
   /////End Student
 
   ///Teacher
@@ -127,6 +133,13 @@ export class DataBUSService {
       return this.teacherList = data
     })
     return this.teacherList.data
+
+  }
+  async sortTeacher(field: any, sort: any) {
+    await this.http.get(this.URL + `teacher/sort/${field}?sort=${sort}`).toPromise().then(data => {
+      return this.teacherList = data;
+    })
+    return this.teacherList.data
   }
   ///EndTeacher
 
@@ -140,7 +153,7 @@ export class DataBUSService {
   }
   async getParentsDetail(Id: any) {
     await this.http.get(this.URL + `parents/${Id}`).toPromise().then(data => {
-      this.parents=data
+      this.parents = data
     })
     return this.parents.data;
   }
@@ -183,6 +196,12 @@ export class DataBUSService {
     })
     return this.parentsList.data
   }
+  async sortParent(field: any, sort: any) {
+    await this.http.get(this.URL + `parents/sort/${field}?sort=${sort}`).toPromise().then(data => {
+      return this.parentsList = data;
+    })
+    return this.parentsList.data
+  }
   ///EndParent
   ///Class
   async getAllClass() {
@@ -197,12 +216,13 @@ export class DataBUSService {
     })
     return this.class.data;
   }
-  async createClass(newClass:Class) {
+  async createClass(newClass: Class) {
     try {
 
       let result;
       await this.http.post(this.URL + `class/`, {
-      classes:{Description:newClass.Description }}).toPromise().then(() => {
+        classes: { Description: newClass.Description }
+      }).toPromise().then(() => {
         result = true
       })
       return result;
@@ -212,8 +232,9 @@ export class DataBUSService {
   async updateClass(newClass: Class) {
     try {
       let result;
-      await this.http.put(this.URL + `class/${newClass._id}`,{
-        classes:{Description:newClass.Description }}).toPromise().then(() => {
+      await this.http.put(this.URL + `class/${newClass._id}`, {
+        classes: { Description: newClass.Description }
+      }).toPromise().then(() => {
         result = true
       })
       return result;
@@ -235,6 +256,12 @@ export class DataBUSService {
     await this.http.get(this.URL + `class/keyword/${keyword}`).toPromise().then(data => {
 
       return this.classList = data
+    })
+    return this.classList.data
+  }
+  async sortClass(field: any, sort: any) {
+    await this.http.get(this.URL + `class/sort/${field}?sort=${sort}`).toPromise().then(data => {
+      return this.classList = data;
     })
     return this.classList.data
   }
@@ -288,6 +315,12 @@ export class DataBUSService {
     await this.http.get(this.URL + `subject/keyword/${keyword}`).toPromise().then(data => {
 
       return this.subjectList = data
+    })
+    return this.subjectList.data
+  }
+  async sortSubject(field: any, sort: any) {
+    await this.http.get(this.URL + `subject/sort/${field}?sort=${sort}`).toPromise().then(data => {
+      return this.subjectList = data;
     })
     return this.subjectList.data
   }

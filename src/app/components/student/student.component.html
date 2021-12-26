@@ -24,9 +24,9 @@
         <thead>
           <tr>
             <th scope="col">ID </th>
-            <th scope="col">Name</th>
-            <th scope="col">Age</th>
-            <th scope="col">Yob</th>
+            <th scope="col">Name<i class="bi bi-caret-up-fill" (click)="this.sort('Name','asc')"></i><i class="bi bi-caret-down-fill"(click)="this.sort('Name','dsc')"></i></th>
+            <th scope="col">Age<i class="bi bi-caret-up-fill" (click)="this.sort('Age','asc')"></i><i class="bi bi-caret-down-fill"(click)="this.sort('Age','dsc')"></i></th>
+            <th scope="col">Yob<i class="bi bi-caret-up-fill" (click)="this.sort('Yob','asc')"></i><i class="bi bi-caret-down-fill"(click)="this.sort('Yob','dsc')"></i></th>
             <th scope="col">ParentsId</th>
             <th scope="col">TeacherId</th>
             <th scope="col">ClassId</th>

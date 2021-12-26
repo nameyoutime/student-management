@@ -96,6 +96,12 @@ export class TeacherComponent implements OnInit {
       this.getAllTeacher();
     }
   }
+  sort(field:any,sort:any){
+    this.data.sortTeacher(field,sort).then(data=>{
+      this.teachers=data
+    })
+
+  }
   //Support Function
   async fillUpdateTeacherForm(Id: any) {
     this.getTeacherDetail(Id);

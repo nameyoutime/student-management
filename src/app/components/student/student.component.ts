@@ -109,6 +109,12 @@ export class StudentComponent implements OnInit {
 
 
   }
+  sort(field:any,sort:any){
+    this.data.sortStudent(field,sort).then(data=>{
+      this.students=data
+    })
+
+  }
   //Support Function
   async fillUpdateStudentForm(Id: any) {
     this.getStudentDetail(Id);
