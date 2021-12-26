@@ -9,7 +9,7 @@ import { Parent } from '../models/Parent.model';
   providedIn: 'root'
 })
 export class DataBUSService {
-  public URL = "http://localhost:8080/api/";
+  public URL = "https://student-management-server.vercel.app/api/";
   public studentList: any;
   public student: any
   public teacherList: any;
