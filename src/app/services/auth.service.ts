@@ -30,7 +30,7 @@ export class AuthService {
     return await this.afAuth.signInWithEmailAndPassword(email, password)
       .then((user) => {
         this.user = user;
-        this.router.navigate(["/"])
+        this.router.navigate([""])
 
       })
       .catch(error => {
@@ -43,7 +43,7 @@ export class AuthService {
     return await this.afAuth.createUserWithEmailAndPassword(email, password)
       .then((user) => {
         this.user = user;
-        this.router.navigate(["/"])
+        this.router.navigate([""])
 
       })
       .catch(error => {
@@ -53,7 +53,9 @@ export class AuthService {
   }
 
   async loginWithGoogle() {
-    const user = await this.afAuth.signInWithPopup(new firebase.auth.GoogleAuthProvider());
+    const user = await this.afAuth.signInWithPopup(new firebase.auth.GoogleAuthProvider()).then(()=>{
+      this.router.navigate([""])
+    });
 
   }
   async logout() {
