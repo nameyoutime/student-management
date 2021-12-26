@@ -10,7 +10,7 @@ import { ClassComponent } from 'src/app/components/class/class.component';
 
 const routes: Routes = [{
   path: '', component: HomepageComponent, children: [
-    { path: 'student', component: StudentComponent },
+    { path: '', component: StudentComponent },
     { path: 'teacher', component: TeacherComponent },
     { path: 'subject', component: SubjectComponent },
     { path: 'class', component: ClassComponent },
