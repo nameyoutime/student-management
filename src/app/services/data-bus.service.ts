@@ -5,11 +5,12 @@ import { Teacher } from '../models/Teacher.model';
 import { Subject } from '../models/Subject.model';
 import { Class } from '../models/Class.model';
 import { Parent } from '../models/Parent.model';
+import { environment } from 'src/environments/environment';
 @Injectable({
   providedIn: 'root'
 })
 export class DataBUSService {
-  public URL = "https://student-management-server.vercel.app/api/";
+  public URL = environment.URL;
   public studentList: any;
   public student: any
   public teacherList: any;

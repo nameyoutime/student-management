@@ -20,7 +20,9 @@ export const environment = {
     messagingSenderId: "780534211012",
     appId: "1:780534211012:web:74b1ef9a41b047f7e40491"
   },
-  production: false
+  production: false,
+  // URL:"https://student-management-server.vercel.app/api/"
+  URL:"http://0.0.0.0:8080/api/"
 };
 
 /*
