@@ -10,14 +10,12 @@ import { ShareService } from 'src/app/services/share.service';
 })
 export class SidebarComponent implements OnInit {
   public isMenuCollapsed = this.shareSer.isSideBarCollapsed;
-  public user: any = this.authSer.user;
-  constructor(public shareSer: ShareService, public authSer: AuthService) { }
+
+  constructor(public shareSer: ShareService) { }
 
   ngOnInit() {
 
   }
 
-  logout(){
-    this.authSer.logout();
-  }
+
 }
