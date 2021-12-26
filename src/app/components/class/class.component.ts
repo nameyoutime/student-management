@@ -102,7 +102,12 @@ export class ClassComponent implements OnInit {
 
     }, 250)
   }
+  sort(field:any,sort:any){
+    this.data.sortClass(field,sort).then(data=>{
+      this.classes=data
+    })
 
+  }
   openModal(template: TemplateRef<any>) {
     this.modalRef = this.modalService.show(template, { class: 'modal-lg' });
   }

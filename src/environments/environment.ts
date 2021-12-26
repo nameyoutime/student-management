@@ -22,7 +22,7 @@ export const environment = {
   },
   production: false,
   // URL:"https://student-management-server.vercel.app/api/"
-  URL:"http://0.0.0.0:8080/api/"
+  URL:"http://localhost:8080/api/"
 };
 
 /*
