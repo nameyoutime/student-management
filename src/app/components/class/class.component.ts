@@ -56,7 +56,7 @@ export class ClassComponent implements OnInit {
     let form = this.updateClassForm.controls;
     if (this.updateClassForm.valid) {
       let newClass = new Class(
-        this.selectedClass._id,null, form.Description.value
+        this.selectedClass._id, null, form.Description.value
       )
       this.data.updateClass(newClass).then(() => {
         alert("Cập nhật lớp học thành công");
@@ -75,8 +75,6 @@ export class ClassComponent implements OnInit {
   getClassDetail(Id: any) {
     this.data.getClassDetail(Id).then(data => {
       this.selectedClass = data;
-
-    }).finally(()=>{
       this.timeout();
     })
 
@@ -96,16 +94,16 @@ export class ClassComponent implements OnInit {
   async fillUpdateClassForm(Id: any) {
     this.getClassDetail(Id);
   }
-  timeout(){
+  timeout() {
     this.updateClassForm.setValue({
 
       Description: this.selectedClass.Description,
 
     })
   }
-  sort(field:any,sort:any){
-    this.data.sortClass(field,sort).then(data=>{
-      this.classes=data
+  sort(field: any, sort: any) {
+    this.data.sortClass(field, sort).then(data => {
+      this.classes = data
     })
 
   }

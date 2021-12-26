@@ -78,9 +78,8 @@ export class ParentsComponent implements OnInit {
   getParentsDetail(Id: any) {
     this.data.getParentsDetail(Id).then(data => {
       this.selectedParents = data;
-
-    }).finally(()=>{
       this.timeout();
+
     })
 
   }

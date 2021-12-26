@@ -75,7 +75,6 @@ export class SubjectComponent implements OnInit {
   getSubjectDetail(Id: any) {
     this.data.getSubjectDetail(Id).then(data => {
       this.selectedSubject = data;
-    }).finally(()=>{
       this.timeout();
     })
 
@@ -111,6 +110,7 @@ export class SubjectComponent implements OnInit {
 
   openModal(template: TemplateRef<any>) {
     this.modalRef = this.modalService.show(template, { class: 'modal-lg' });
+    
   }
   //End Support Function
 

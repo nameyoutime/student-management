@@ -26,9 +26,9 @@ export class StudentComponent implements OnInit {
     Name: new FormControl('', [Validators.required]),
     Age: new FormControl('', [Validators.required]),
     Yob: new FormControl('', [Validators.required]),
-    Parents: new FormControl('', []),
-    Teacher: new FormControl('', []),
-    Class: new FormControl('', []),
+    Parents: new FormControl('', [Validators.required]),
+    Teacher: new FormControl('', [Validators.required]),
+    Class: new FormControl('', [Validators.required]),
   })
   updateStudentForm = new FormGroup({
     Name: new FormControl('', [Validators.required]),
@@ -55,29 +55,34 @@ export class StudentComponent implements OnInit {
   addNewStudent() {
     let form = this.addStudentForm.controls;
 
-    let dob = `${form.Yob.value?.year}-${form.Yob.value?.month}-${form.Yob.value?.day}`;
+    // let dob = `${form.Yob.value?.year}-${form.Yob.value?.month}-${form.Yob.value?.day}`;
     if (this.addStudentForm.valid) {
       let newStudent = new Student(
-        null, form.Name.value, form.Age.value, dob, form.Parents.value, form.Teacher.value, form.Class.value
+        null, form.Name.value, form.Age.value, form.Yob.value, form.Parents.value, form.Teacher.value, form.Class.value
       )
-      this.data.createStudent(newStudent).then(() => {
-        alert("Thêm học sinh thành công");
-        this.getAllStudent();
-      });
+      console.log(this.addStudentForm.value);
+      // this.data.createStudent(newStudent).then(() => {
+      //   alert("Thêm học sinh thành công");
+        
+      // }).finally(()=>{
+      //   this.getAllStudent();
+      // });
     } else {
       alert("Vui lòng nhập đủ thông tin")
     }
   }
   updateStudent() {
     let form = this.updateStudentForm.controls;
-    let dob = `${form.Yob.value?.year}-${form.Yob.value?.month}-${form.Yob.value?.day}`;
+    // let dob = `${form.Yob.value?.year}-${form.Yob.value?.month}-${form.Yob.value?.day}`;
 
     if (this.updateStudentForm.valid) {
       let newStudent = new Student(
-        this.selectedStudent._id, form.Name.value, form.Age.value, dob, form.Parents.value, form.Teacher.value, form.Class.value
+        this.selectedStudent._id, form.Name.value, form.Age.value, form.Yob.value, form.Parents.value, form.Teacher.value, form.Class.value
       )
       this.data.updateStudent(newStudent).then(() => {
         alert("Cập nhật học sinh thành công");
+        
+      }).finally(()=>{
         this.getAllStudent();
       });
     } else {
@@ -87,12 +92,15 @@ export class StudentComponent implements OnInit {
   async deleteStudent(Id: any) {
     await this.data.deteleStudent(Id).then(() => {
       alert("Xóa thành công");
+      
+    }).finally(()=>{
       this.getAllStudent();
     })
   }
   getStudentDetail(Id: any) {
     this.data.getStudentDetail(Id).then(data => {
       this.selectedStudent = data;
+      this.timeout();
     })
 
   }
@@ -154,12 +162,14 @@ export class StudentComponent implements OnInit {
   getAllClass() {
     this.data.getAllClass().then(data => {
       this.classes = data;
-    }).finally(()=>{
-      this.timeout();
     })
   }
   openModal(template: TemplateRef<any>) {
     this.modalRef = this.modalService.show(template, { class: 'modal-lg' });
+    this.classes = [];
+    this.parents = [];
+    this.teachers = [];
+
   }
   //End Support Function
 

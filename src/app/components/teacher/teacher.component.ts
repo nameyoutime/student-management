@@ -82,7 +82,6 @@ export class TeacherComponent implements OnInit {
   getTeacherDetail(Id: any) {
     this.data.getTeacherDetail(Id).then(data => {
       this.selectedTeacher = data;
-    }).finally(() => {
       this.timeout();
     })
 
@@ -128,6 +127,7 @@ export class TeacherComponent implements OnInit {
   }
   openModal(template: TemplateRef<any>) {
     this.modalRef = this.modalService.show(template, { class: 'modal-lg' });
+    this.subjects = []
   }
   //End Support Function
 

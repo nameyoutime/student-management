@@ -72,17 +72,17 @@
   </div>
   <form [formGroup]="addStudentForm" (ngSubmit)="addNewStudent()">
     <div class="modal-body">
-      <div id="addForm">
+      <div id="addForm" >
         <label for="Name">Họ tên</label>
         <input type="text" class="form-control" placeholder="Nhập tên" formControlName="Name">
         <label for="Age">Tuổi</label>
         <input type="number" class="form-control" placeholder="Nhập tuổi" formControlName="Age">
         <label for="DOB">Ngày sinh</label>
-          <input type="text" class="form-control" placeholder="2021-12-24" formControlName="Yob">
+          <input type="text" class="form-control" placeholder="Nhập năm sinh" formControlName="Yob">
         <br>
         <label for="Parents">Phụ huynh của học sinh:</label>
         <br>
-        <select NgbDropdownMenu aria-labelledby="parentsdropdown" formControlName="Parents">
+        <select NgbDropdownMenu aria-labelledby="parentsdropdown" value="" formControlName="Parents">
           <option NgbDropdownItem *ngFor="let parent of this.parents" [ngValue]="parent._id">Họ tên
             cha:{{parent.DadName}} Họ tên mẹ:{{parent.MomName}}
           </option>
@@ -124,7 +124,7 @@
       <h2>ID học sinh:<b> {{this.selectedStudent._id}}</b></h2>
       <p>Tên : <b>{{this.selectedStudent.Name}}</b></p>
       <p>Tuổi: <b>{{this.selectedStudent.Age}}</b></p>
-      <p>Ngày sinh:<b>{{this.selectedStudent.Yob}}</b></p>
+      <p>Năm sinh:<b>{{this.selectedStudent.Yob}}</b></p>
       <p>Thông tin phụ huynh:<button (click)="openModal(studentParent)" class="btn btn-primary">Xem</button></p>
       <p>Thông tin giáo viên:<button (click)="openModal(studentTeachers)" class="btn btn-primary">Xem</button></p>
       <p>Thông tin lớp học:<button (click)="openModal(studentClasses)" class="btn btn-primary">Xem</button></p>
@@ -151,8 +151,8 @@
         <input type="text" class="form-control" placeholder="Nhập tên" formControlName="Name">
         <label for="Age">Tuổi</label>
         <input type="number" class="form-control" placeholder="Nhập tuổi" formControlName="Age">
-        <label for="DOB">Ngày sinh</label>
-          <input type="text" class="form-control" placeholder="2021-12-24" formControlName="Yob">
+        <label for="DOB">Năm sinh</label>
+          <input type="text" class="form-control" placeholder="Nhập năm sinh" formControlName="Yob">
         <br>
         <label for="Parents">Phụ huynh của học sinh:</label>
         <br>
