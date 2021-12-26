@@ -89,6 +89,12 @@ export class SubjectComponent implements OnInit {
       this.getAllSubject();
     }
   }
+  sort(field:any,sort:any){
+    this.data.sortSubject(field,sort).then(data=>{
+      this.subjects=data
+    })
+
+  }
   //Support Function
   async fillUpdateSubjectForm(Id: any) {
     this.getSubjectDetail(Id);

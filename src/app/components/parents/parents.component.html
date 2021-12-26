@@ -23,8 +23,8 @@
         <thead>
           <tr>
             <th scope="col">ID </th>
-            <th scope="col">Tên cha</th>
-            <th scope="col">Tên mẹ</th>
+            <th scope="col">Tên cha <i class="bi bi-caret-up-fill" (click)="this.sort('DadName','asc')"></i><i class="bi bi-caret-down-fill"(click)="this.sort('DadName','dsc')"></i></th>
+            <th scope="col">Tên mẹ <i class="bi bi-caret-up-fill" (click)="this.sort('MomName','asc')"></i><i class="bi bi-caret-down-fill"(click)="this.sort('MomName','dsc')"></i></th>
             <th scope="col">Địa chỉ</th>
             <th scope="col">Chức năng</th>
           </tr>

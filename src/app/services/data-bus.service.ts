@@ -74,6 +74,12 @@ export class DataBUSService {
     })
     return this.studentList.data
   }
+  async sortStudent(field: any, sort: any) {
+    await this.http.get(this.URL + `student/sort/${field}?sort=${sort}`).toPromise().then(data => {
+      return this.studentList = data;
+    })
+    return this.studentList.data
+  }
   /////End Student
 
   ///Teacher
@@ -125,6 +131,13 @@ export class DataBUSService {
     await this.http.get(this.URL + `teacher/keyword/${keyword}`).toPromise().then(data => {
 
       return this.teacherList = data
+    })
+    return this.teacherList.data
+
+  }
+  async sortTeacher(field: any, sort: any) {
+    await this.http.get(this.URL + `teacher/sort/${field}?sort=${sort}`).toPromise().then(data => {
+      return this.teacherList = data;
     })
     return this.teacherList.data
   }
@@ -180,6 +193,12 @@ export class DataBUSService {
     await this.http.get(this.URL + `parents/keyword/${keyword}`).toPromise().then(data => {
 
       return this.parentsList = data
+    })
+    return this.parentsList.data
+  }
+  async sortParent(field: any, sort: any) {
+    await this.http.get(this.URL + `parents/sort/${field}?sort=${sort}`).toPromise().then(data => {
+      return this.parentsList = data;
     })
     return this.parentsList.data
   }
@@ -296,6 +315,12 @@ export class DataBUSService {
     await this.http.get(this.URL + `subject/keyword/${keyword}`).toPromise().then(data => {
 
       return this.subjectList = data
+    })
+    return this.subjectList.data
+  }
+  async sortSubject(field: any, sort: any) {
+    await this.http.get(this.URL + `subject/sort/${field}?sort=${sort}`).toPromise().then(data => {
+      return this.subjectList = data;
     })
     return this.subjectList.data
   }

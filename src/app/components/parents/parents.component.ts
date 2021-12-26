@@ -92,6 +92,12 @@ export class ParentsComponent implements OnInit {
       this.getAllParents();
     }
   }
+  sort(field:any,sort:any){
+    this.data.sortParent(field,sort).then(data=>{
+      this.parentsList=data
+    })
+
+  }
   //Support Function
   async fillUpdateParentsForm(Id: any) {
     this.getParentsDetail(Id);
