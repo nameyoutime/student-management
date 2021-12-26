@@ -56,6 +56,9 @@ router.post('/', async (req, res) => {
 router.put('/:id', async (req, res) => {
     let { teacher } = req.body;
     let teacherId = req.params.id;
+    if (teacher.Subject.length <= 1) {
+        delete teacher.Subject;
+    }
     let result = await TeacherDB.findByIdAndUpdate(teacherId, teacher);
     res.send({ data: result });
 })

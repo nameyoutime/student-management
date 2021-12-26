@@ -76,6 +76,8 @@ export class ClassComponent implements OnInit {
     this.data.getClassDetail(Id).then(data => {
       this.selectedClass = data;
 
+    }).finally(()=>{
+      this.timeout();
     })
 
   }
@@ -93,14 +95,13 @@ export class ClassComponent implements OnInit {
   //Support Function
   async fillUpdateClassForm(Id: any) {
     this.getClassDetail(Id);
-    setTimeout(() => {
-      this.updateClassForm.setValue({
+  }
+  timeout(){
+    this.updateClassForm.setValue({
 
-        Description: this.selectedClass.Description,
+      Description: this.selectedClass.Description,
 
-      })
-
-    }, 250)
+    })
   }
   sort(field:any,sort:any){
     this.data.sortClass(field,sort).then(data=>{

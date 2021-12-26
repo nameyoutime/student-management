@@ -49,7 +49,7 @@ export class TeacherComponent implements OnInit {
 
     if (this.addTeacherForm.valid) {
       let newTeacher = new Teacher(
-        null, form.Name.value, form.Age.value, form.Address.value,form.Subject.value
+        null, form.Name.value, form.Age.value, form.Address.value, form.Subject.value
       )
       this.data.createTeacher(newTeacher).then(() => {
         alert("Thêm giáo viên thành công");
@@ -63,7 +63,7 @@ export class TeacherComponent implements OnInit {
     let form = this.updateTeacherForm.controls;
     if (this.updateTeacherForm.valid) {
       let newTeacher = new Teacher(
-        this.selectedTeacher._id, form.Name.value, form.Age.value, form.Address.value,form.Subject.value
+        this.selectedTeacher._id, form.Name.value, form.Age.value, form.Address.value, form.Subject.value
       )
       this.data.updateTeacher(newTeacher).then(() => {
         alert("Cập nhật giáo viên thành công");
@@ -82,6 +82,8 @@ export class TeacherComponent implements OnInit {
   getTeacherDetail(Id: any) {
     this.data.getTeacherDetail(Id).then(data => {
       this.selectedTeacher = data;
+    }).finally(() => {
+      this.timeout();
     })
 
   }
@@ -96,26 +98,30 @@ export class TeacherComponent implements OnInit {
       this.getAllTeacher();
     }
   }
-  sort(field:any,sort:any){
-    this.data.sortTeacher(field,sort).then(data=>{
-      this.teachers=data
+  sort(field: any, sort: any) {
+    this.data.sortTeacher(field, sort).then(data => {
+      this.teachers = data
     })
 
   }
   //Support Function
   async fillUpdateTeacherForm(Id: any) {
     this.getTeacherDetail(Id);
-    setTimeout(() => {
-      this.updateTeacherForm.setValue({
-        Name: this.selectedTeacher.Name,
-        Age: this.selectedTeacher.Age,
-        Address:this.selectedTeacher.Address,
-        Subject: this.selectedTeacher.Subject[0]._id,
-      })
 
-    }, 250)
   }
-  getAllSubject(){
+
+  timeout() {
+    if(this.selectedTeacher.Subject.length==0){
+      this.selectedTeacher.Subject.push({_id:""})
+    }
+    this.updateTeacherForm.setValue({
+      Name: this.selectedTeacher.Name,
+      Age: this.selectedTeacher.Age,
+      Address: this.selectedTeacher.Address,
+      Subject: this.selectedTeacher.Subject[0]._id,
+    })
+  }
+  getAllSubject() {
     this.data.getAllSubject().then(data => {
       this.subjects = data;
     })

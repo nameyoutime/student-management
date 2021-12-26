@@ -75,6 +75,8 @@ export class SubjectComponent implements OnInit {
   getSubjectDetail(Id: any) {
     this.data.getSubjectDetail(Id).then(data => {
       this.selectedSubject = data;
+    }).finally(()=>{
+      this.timeout();
     })
 
   }
@@ -98,14 +100,13 @@ export class SubjectComponent implements OnInit {
   //Support Function
   async fillUpdateSubjectForm(Id: any) {
     this.getSubjectDetail(Id);
-    setTimeout(() => {
-      this.updateSubjectForm.setValue({
-        Title: this.selectedSubject.Title,
-        Description: this.selectedSubject.Description,
+  }
+  timeout(){
+    this.updateSubjectForm.setValue({
+      Title: this.selectedSubject.Title,
+      Description: this.selectedSubject.Description,
 
-      })
-
-    }, 250)
+    })
   }
 
   openModal(template: TemplateRef<any>) {

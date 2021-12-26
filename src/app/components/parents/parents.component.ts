@@ -79,6 +79,8 @@ export class ParentsComponent implements OnInit {
     this.data.getParentsDetail(Id).then(data => {
       this.selectedParents = data;
 
+    }).finally(()=>{
+      this.timeout();
     })
 
   }
@@ -101,15 +103,14 @@ export class ParentsComponent implements OnInit {
   //Support Function
   async fillUpdateParentsForm(Id: any) {
     this.getParentsDetail(Id);
-    setTimeout(() => {
-      console.log(this.selectedParents)
-      this.updateParentForm.setValue({
-        DadName: this.selectedParents.DadName,
-        MomName: this.selectedParents.MomName,
-        Address: this.selectedParents.Address,
-      })
 
-    }, 250)
+  }
+  timeout(){
+    this.updateParentForm.setValue({
+      DadName: this.selectedParents.DadName,
+      MomName: this.selectedParents.MomName,
+      Address: this.selectedParents.Address,
+    })
   }
 
   openModal(template: TemplateRef<any>) {

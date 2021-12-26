@@ -33,13 +33,13 @@ router.get('/sort/:field', async (req, res) => {
         } else if (sort == "dsc") {
             data = await StudentDB.find().sort({ Name: -1 });
         }
-    }else if(field=="Age"){
+    } else if (field == "Age") {
         if (sort == "asc") {
             data = await StudentDB.find().sort({ Age: 1 });
         } else if (sort == "dsc") {
             data = await StudentDB.find().sort({ Age: -1 });
         }
-    } else if(field == "Yob"){
+    } else if (field == "Yob") {
         if (sort == "asc") {
             data = await StudentDB.find().sort({ Yob: 1 });
         } else if (sort == "dsc") {
@@ -59,6 +59,13 @@ router.post('/', async (req, res) => {
 router.put('/:id', async (req, res) => {
     let { student } = req.body;
     let studentId = req.params.id;
+    if (student.Parents.length <= 1) {
+        delete student.Parents;
+    } if (student.Teacher.length <= 1) {
+        delete student.Teacher;
+    } if (student.Class.length <= 1) {
+        delete student.Class;
+    }
     let result = await StudentDB.findByIdAndUpdate(studentId, student);
     res.send({ data: result });
 })

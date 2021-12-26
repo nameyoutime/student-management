@@ -109,9 +109,9 @@ export class StudentComponent implements OnInit {
 
 
   }
-  sort(field:any,sort:any){
-    this.data.sortStudent(field,sort).then(data=>{
-      this.students=data
+  sort(field: any, sort: any) {
+    this.data.sortStudent(field, sort).then(data => {
+      this.students = data
     })
 
   }
@@ -120,20 +120,25 @@ export class StudentComponent implements OnInit {
     this.getStudentDetail(Id);
     this.getAllTeacher();
     this.getAllParent();
-    this.getAllClass();
+    this.getAllClass()
+  }
 
-    setTimeout(() => {
-      this.updateStudentForm.setValue({
-        Name: this.selectedStudent.Name,
-        Age: this.selectedStudent.Age,
-        Yob: this.selectedStudent.Yob,
-        Parents: this.selectedStudent.Parents[0]._id,
-        Teacher: this.selectedStudent.Teacher[0]._id,
-        Class: this.selectedStudent.Class[0]._id,
-      })
-
-    }, 250)
-
+  timeout(){
+    if(this.selectedStudent.Parents.length==0){
+      this.selectedStudent.Parents.push({_id:""})
+    }if(this.selectedStudent.Teacher.length==0){
+      this.selectedStudent.Teacher.push({_id:""})
+    }if(this.selectedStudent.Class.length==0){
+      this.selectedStudent.Class.push({_id:""})
+    }
+    this.updateStudentForm.setValue({
+      Name: this.selectedStudent.Name,
+      Age: this.selectedStudent.Age,
+      Yob: this.selectedStudent.Yob,
+      Parents: this.selectedStudent.Parents[0]._id ,
+      Teacher: this.selectedStudent.Teacher[0]._id,
+      Class: this.selectedStudent.Class[0]._id,
+    })
   }
 
   getAllTeacher() {
@@ -149,6 +154,8 @@ export class StudentComponent implements OnInit {
   getAllClass() {
     this.data.getAllClass().then(data => {
       this.classes = data;
+    }).finally(()=>{
+      this.timeout();
     })
   }
   openModal(template: TemplateRef<any>) {
