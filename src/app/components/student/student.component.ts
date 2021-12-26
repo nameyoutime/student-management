@@ -60,13 +60,13 @@ export class StudentComponent implements OnInit {
       let newStudent = new Student(
         null, form.Name.value, form.Age.value, form.Yob.value, form.Parents.value, form.Teacher.value, form.Class.value
       )
-      console.log(this.addStudentForm.value);
-      // this.data.createStudent(newStudent).then(() => {
-      //   alert("Thêm học sinh thành công");
+      // console.log(this.addStudentForm.value);
+      this.data.createStudent(newStudent).then(() => {
+        alert("Thêm học sinh thành công");
         
-      // }).finally(()=>{
-      //   this.getAllStudent();
-      // });
+      }).finally(()=>{
+        this.getAllStudent();
+      });
     } else {
       alert("Vui lòng nhập đủ thông tin")
     }
