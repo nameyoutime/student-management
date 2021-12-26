@@ -10,16 +10,40 @@ const StudentDB = mongoose.model('Student', studentSchema);
 
 router.get('/', async (req, res) => {
     let data = await TeacherDB.find();
-    res.send({data:data})
+    res.send({ data: data })
 })
 router.get('/:id', async (req, res) => {
-    let teacherId  = req.params.id;
+    let teacherId = req.params.id;
     let data = await TeacherDB.findById(teacherId).populate("Subject");
-    res.send({data:data})
+    res.send({ data: data })
 })
+
+
+router.get('/sort/:field', async (req, res) => {
+    let field = req.params.field;
+    let { sort } = req.query;
+    let data = [];
+    if (field == "Name") {
+        if (sort == "asc") {
+            data = await TeacherDB.find().sort({ Name: 1 });
+        } else if (sort == "dsc") {
+            data = await TeacherDB.find().sort({ Name: -1 });
+        }
+    } else if (field == "Age") {
+        if (sort == "asc") {
+            data = await TeacherDB.find().sort({ Age: 1 });
+        } else if (sort == "dsc") {
+            data = await TeacherDB.find().sort({ Age: -1 });
+        }
+    } else {
+        data = await TeacherDB.find();
+    }
+    res.send({ data: data })
+})
+
 router.get('/keyword/:keyword', async (req, res) => {
     let keyword = req.params.keyword;
-    let result = await TeacherDB.find({Name : { $regex: keyword, $options: 'i' }})
+    let result = await TeacherDB.find({ Name: { $regex: keyword, $options: 'i' } })
     res.send({ data: result })
 })
 
@@ -27,22 +51,24 @@ router.post('/', async (req, res) => {
     let { teacher } = req.body;
     const result = new TeacherDB(teacher);
     await result.save();
-    res.send({data:result});
+    res.send({ data: result });
 })
 router.put('/:id', async (req, res) => {
     let { teacher } = req.body;
-    let teacherId  = req.params.id;
-    let result = await TeacherDB.findByIdAndUpdate(teacherId,teacher);
-    res.send({data:result});
+    let teacherId = req.params.id;
+    let result = await TeacherDB.findByIdAndUpdate(teacherId, teacher);
+    res.send({ data: result });
 })
 
 router.delete('/:id', async (req, res) => {
-    let teacherId  = req.params.id;
+    let teacherId = req.params.id;
     let result = await TeacherDB.findByIdAndRemove(teacherId);
-    await StudentDB.updateMany({Teacher:[
-        teacherId
-    ]},{$unset:{Teacher:[teacherId]}});
-    res.send({data:result});
+    await StudentDB.updateMany({
+        Teacher: [
+            teacherId
+        ]
+    }, { $unset: { Teacher: [teacherId] } });
+    res.send({ data: result });
 })
 
 module.exports = router;

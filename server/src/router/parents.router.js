@@ -18,6 +18,28 @@ router.get('/:id', async (req, res) => {
     let data = await ParentsDB.findById(parentsId);
     res.send({ data: data })
 })
+
+router.get('/sort/:field', async (req, res) => {
+    let field = req.params.field;
+    let { sort } = req.query;
+    let data;
+    if (field == "DadName") {
+        if (sort == "asc") {
+            data = await ParentsDB.find().sort({ DadName: 1 });
+        } else if (sort == "dsc") {
+            data = await ParentsDB.find().sort({ DadName: -1 });
+        }
+    } else if (field == "MomName") {
+        if (sort == "asc") {
+            data = await ParentsDB.find().sort({ MomName: 1 });
+        } else if (sort == "dsc") {
+            data = await ParentsDB.find().sort({ MomName: -1 });
+        }
+    } else {
+        data = await ParentsDB.find();
+    }
+    res.send({ data: data })
+})
 router.get('/keyword/:keyword', async (req, res) => {
     let keyword = req.params.keyword;
     let result = await ParentsDB.find({

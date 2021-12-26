@@ -17,9 +17,32 @@ router.get('/:id', async (req, res) => {
     let data = await ClassDB.findById(classId);
     res.send({ data: data })
 })
+router.get('/sort/:field', async (req, res) => {
+    let field = req.params.field;
+    let { sort } = req.query;
+    let data;
+    if (field == "Room") {
+        if (sort == "asc") {
+            data = await ClassDB.find().sort({ Room: 1 });
+        } else if (sort == "dsc") {
+            data = await ClassDB.find().sort({ Room: -1 });
+        }
+    } else {
+        data = await ClassDB.find();
+    }
+    res.send({ data: data })
+})
+
 router.get('/keyword/:keyword', async (req, res) => {
     let keyword = req.params.keyword;
-    let result = await ClassDB.find({Room : { $regex: keyword, $options: 'i' }})
+    let result = await ClassDB.find({
+        "$expr": {
+            "$regexMatch": {
+                "input": { "$toString": "$Room" },
+                "regex": keyword
+            }
+        }
+    })
     res.send({ data: result })
 })
 
@@ -52,9 +75,11 @@ router.put('/:id', async (req, res) => {
 router.delete('/:id', async (req, res) => {
     let classId = req.params.id;
     let result = await ClassDB.findByIdAndRemove(classId);
-    await StudentDB.updateMany({Class:[
-        classId
-    ]},{$unset:{Class:[classId]}});
+    await StudentDB.updateMany({
+        Class: [
+            classId
+        ]
+    }, { $unset: { Class: [classId] } });
     res.send({ data: result });
 })
 
