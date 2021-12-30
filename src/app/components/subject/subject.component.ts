@@ -11,6 +11,9 @@ import { Subject } from 'src/app/models/Subject.model';
 export class SubjectComponent implements OnInit {
 
   public subjects: Subject[] = [];
+  public loadSubject:boolean = false;
+  public loadSelectedSubject:boolean = false;
+
   p: any = 1;
   public selectedSubject: Subject = new Subject();
   addSubjectForm = new FormGroup({
@@ -33,8 +36,11 @@ export class SubjectComponent implements OnInit {
   }
 
   getAllSubject() {
+    this.loadSubject=false;
     this.data.getAllSubject().then(data => {
       this.subjects = data;
+    this.loadSubject=true;
+
     })
   }
   addNewSubject() {
@@ -73,6 +79,8 @@ export class SubjectComponent implements OnInit {
     })
   }
   getSubjectDetail(Id: any) {
+    this.loadSelectedSubject = false;
+
     this.data.getSubjectDetail(Id).then(data => {
       this.selectedSubject = data;
       this.timeout();
@@ -106,6 +114,7 @@ export class SubjectComponent implements OnInit {
       Description: this.selectedSubject.Description,
 
     })
+    this.loadSelectedSubject = true;
   }
 
   openModal(template: TemplateRef<any>) {

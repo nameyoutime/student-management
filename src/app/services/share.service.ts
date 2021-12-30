@@ -10,5 +10,8 @@ export class ShareService {
   public collapSidebar() {
     this.isSideBarCollapsed = !this.isSideBarCollapsed;
   }
-  constructor() { }
+  constructor() {
+  this.isSideBarCollapsed = false;
+
+  }
 }

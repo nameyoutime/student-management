@@ -1,4 +1,9 @@
-<div id="contentbody">
+
+<div *ngIf="!this.loadSubject" id="contentbody" style="margin-top: 20%;">
+  <app-spinner></app-spinner>
+</div>
+
+<div *ngIf="this.loadSubject" id="contentbody">
   <h1 id="componentTitle">DANH SÁCH MÔN HỌC</h1>
 
   <div class="input-group" id="search_div">
@@ -22,15 +27,15 @@
       <table class="table align-middle">
         <thead>
           <tr>
-            <th scope="col">ID </th>
-            <th scope="col">Title <i class="bi bi-caret-up-fill" (click)="this.sort('Title','asc')"></i><i class="bi bi-caret-down-fill"(click)="this.sort('Title','dsc')"></i></th>
+            <th scope="col"># </th>
+            <th scope="col">Title <i class="bi bi-caret-up-fill pointer" (click)="this.sort('Title','asc')"></i><i class="bi bi-caret-down-fill pointer"(click)="this.sort('Title','dsc')"></i></th>
             <th scope="col">Description</th>
             <th scope="col">Chức năng</th>
           </tr>
         </thead>
-        <tbody *ngFor="let subject of this.subjects | paginate: { itemsPerPage: 5, currentPage: this.p }">
+        <tbody *ngFor="let subject of this.subjects | paginate: { itemsPerPage: 5, currentPage: this.p };let i =index">
           <tr scope="row">
-            <td>{{subject._id}}</td>
+            <td>{{(this.p-1) * 5 + i + 1}}</td>
             <td>{{subject.Title}}</td>
             <td>{{subject.Description}}</td>
             <td>
@@ -39,7 +44,7 @@
                 Chi tiết
               </button>
               <button type="button" class="btn btn-primary btn-sm px-3"
-                (click)="this.getAllSubject();this.fillUpdateSubjectForm(subject._id);openModal(updateSubjectmodal)">
+                (click)="this.fillUpdateSubjectForm(subject._id);openModal(updateSubjectmodal)">
                 Cập nhật
               </button>
               <button type="button" class="btn btn-danger btn-sm px-3" (click)="this.deleteSubject(subject._id)">
@@ -85,15 +90,19 @@
       <span aria-hidden="true">×</span>
     </button>
   </div>
+  <div *ngIf="!this.loadSelectedSubject" class="modal-body">
+    <app-spinner></app-spinner>
 
-  <div class="modal-body">
+  </div>
+
+  <div *ngIf="this.loadSelectedSubject" class="modal-body">
     <div id="addForm">
-      <h2>ID môn học:<b> {{this.selectedSubject._id}}</b></h2>
+      <!-- <h2>ID môn học:<b> {{this.selectedSubject._id}}</b></h2> -->
       <p>Tên môn : <b>{{this.selectedSubject.Title}}</b></p>
       <p>Chi tiết môn học: <b>{{this.selectedSubject.Description}}</b></p>
     </div>
   </div>
-  <div class="modal-footer">
+  <div class="modal-footer" *ngIf="this.loadSelectedSubject">
     <button type="button" class="btn btn-secondary" (click)="modalRef.hide()">Đóng</button>
 
   </div>
@@ -107,8 +116,13 @@
       <span aria-hidden="true">×</span>
     </button>
   </div>
+  <div *ngIf="!this.loadSelectedSubject" class="modal-body">
+    <app-spinner></app-spinner>
+
+  </div>
+  
   <form [formGroup]="updateSubjectForm" (ngSubmit)="this.updateSubject()">
-    <div class="modal-body">
+    <div *ngIf="this.loadSelectedSubject" class="modal-body">
       <div id="addForm">
         <label for="Name">Tên môn</label>
         <input type="text" class="form-control" placeholder="Nhập tên" formControlName="Title">
@@ -116,7 +130,7 @@
         <input type="text" class="form-control" placeholder="Nhập chi tiết" formControlName="Description">
       </div>
     </div>
-    <div class="modal-footer">
+    <div class="modal-footer" *ngIf="this.loadSelectedSubject">
       <button type="button" class="btn btn-secondary" (click)="modalRef.hide()">Đóng</button>
       <button type="submit" class="btn btn-primary" (click)="modalRef.hide()">Cập nhật</button>
     </div>

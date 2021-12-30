@@ -20,6 +20,11 @@ export class StudentComponent implements OnInit {
   public teachers: Teacher[] = [];
   public parents: Parent[] = [];
   public classes: Class[] = [];
+  public loadClasses: boolean = false;
+  public loadParents: boolean = false;
+  public loadTeachers: boolean = false;
+  public loadStudent: boolean = false;
+  public loadselectedStudent: boolean = false;
   p: any = 1;
   public selectedStudent: Student = new Student();
   addStudentForm = new FormGroup({
@@ -48,8 +53,10 @@ export class StudentComponent implements OnInit {
   }
 
   getAllStudent() {
+    this.loadStudent = false;
     this.data.getAllStudent().then(data => {
       this.students = data;
+      this.loadStudent = true;
     })
   }
   addNewStudent() {
@@ -63,8 +70,8 @@ export class StudentComponent implements OnInit {
       // console.log(this.addStudentForm.value);
       this.data.createStudent(newStudent).then(() => {
         alert("Thêm học sinh thành công");
-        
-      }).finally(()=>{
+
+      }).finally(() => {
         this.getAllStudent();
       });
     } else {
@@ -81,8 +88,8 @@ export class StudentComponent implements OnInit {
       )
       this.data.updateStudent(newStudent).then(() => {
         alert("Cập nhật học sinh thành công");
-        
-      }).finally(()=>{
+
+      }).finally(() => {
         this.getAllStudent();
       });
     } else {
@@ -92,12 +99,13 @@ export class StudentComponent implements OnInit {
   async deleteStudent(Id: any) {
     await this.data.deteleStudent(Id).then(() => {
       alert("Xóa thành công");
-      
-    }).finally(()=>{
+
+    }).finally(() => {
       this.getAllStudent();
     })
   }
   getStudentDetail(Id: any) {
+    this.loadselectedStudent =false;
     this.data.getStudentDetail(Id).then(data => {
       this.selectedStudent = data;
       this.timeout();
@@ -108,7 +116,6 @@ export class StudentComponent implements OnInit {
     let keyword = (<HTMLInputElement>document.getElementById("searchKeyword")).value
     if (keyword.trim()) {
       this.data.searchStudent(keyword.trim()).then(data => {
-        console.log(data);
         this.students = data
       })
     } else {
@@ -131,41 +138,60 @@ export class StudentComponent implements OnInit {
     this.getAllClass()
   }
 
-  timeout(){
-    if(this.selectedStudent.Parents.length==0){
-      this.selectedStudent.Parents.push({_id:""})
-    }if(this.selectedStudent.Teacher.length==0){
-      this.selectedStudent.Teacher.push({_id:""})
-    }if(this.selectedStudent.Class.length==0){
-      this.selectedStudent.Class.push({_id:""})
+  timeout() {
+    if (this.selectedStudent.Parents.length == 0) {
+      this.selectedStudent.Parents.push({ _id: "" })
+    } if (this.selectedStudent.Teacher.length == 0) {
+      this.selectedStudent.Teacher.push({ _id: "" })
+    } if (this.selectedStudent.Class.length == 0) {
+      this.selectedStudent.Class.push({ _id: "" })
     }
     this.updateStudentForm.setValue({
       Name: this.selectedStudent.Name,
       Age: this.selectedStudent.Age,
       Yob: this.selectedStudent.Yob,
-      Parents: this.selectedStudent.Parents[0]._id ,
+      Parents: this.selectedStudent.Parents[0]._id,
       Teacher: this.selectedStudent.Teacher[0]._id,
       Class: this.selectedStudent.Class[0]._id,
     })
+    this.loadselectedStudent= true;
   }
 
   getAllTeacher() {
+    this.loadTeachers = false;
+
     this.data.getAllTeacher().then(data => {
       this.teachers = data;
+      this.loadTeachers = true;
     })
+    
+
   }
   getAllParent() {
+        
+    this.loadParents = false;
+
     this.data.getAllParent().then(data => {
       this.parents = data;
+      this.loadParents = true;
     })
+    
+
   }
   getAllClass() {
+    
+    this.loadClasses = false;
+
+
     this.data.getAllClass().then(data => {
       this.classes = data;
+      this.loadClasses = true;
     })
+    
   }
   openModal(template: TemplateRef<any>) {
     this.modalRef = this.modalService.show(template, { class: 'modal-lg' });
+
     this.classes = [];
     this.parents = [];
     this.teachers = [];

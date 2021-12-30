@@ -9,7 +9,7 @@ const studentSchema = require('../../schemas/student.schemas');
 const StudentDB = mongoose.model('Student', studentSchema);
 
 router.get('/', async (req, res) => {
-    let data = await TeacherDB.find();
+    let data = await TeacherDB.find().populate("Subject");
     res.send({ data: data })
 })
 router.get('/:id', async (req, res) => {

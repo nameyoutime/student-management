@@ -16,6 +16,11 @@ import { Class } from 'src/app/models/Class.model';
 export class TeacherComponent implements OnInit {
   public teachers: Teacher[] = [];
   public subjects: Subject[] = [];
+  public loadTeachers: boolean = false;
+  public loadSubjects: boolean = false;
+  public loadSelectedTeacher: boolean = false;
+
+
   p: any = 1;
   public selectedTeacher: Teacher = new Teacher();
   addTeacherForm = new FormGroup({
@@ -40,8 +45,10 @@ export class TeacherComponent implements OnInit {
   }
 
   getAllTeacher() {
+    this.loadTeachers = false;
     this.data.getAllTeacher().then(data => {
       this.teachers = data;
+      this.loadTeachers = true;
     })
   }
   addNewTeacher() {
@@ -80,6 +87,7 @@ export class TeacherComponent implements OnInit {
     })
   }
   getTeacherDetail(Id: any) {
+    this.loadSelectedTeacher = false;
     this.data.getTeacherDetail(Id).then(data => {
       this.selectedTeacher = data;
       this.timeout();
@@ -110,8 +118,8 @@ export class TeacherComponent implements OnInit {
   }
 
   timeout() {
-    if(this.selectedTeacher.Subject.length==0){
-      this.selectedTeacher.Subject.push({_id:""})
+    if (this.selectedTeacher.Subject.length == 0) {
+      this.selectedTeacher.Subject.push({ _id: "" })
     }
     this.updateTeacherForm.setValue({
       Name: this.selectedTeacher.Name,
@@ -119,10 +127,13 @@ export class TeacherComponent implements OnInit {
       Address: this.selectedTeacher.Address,
       Subject: this.selectedTeacher.Subject[0]._id,
     })
+    this.loadSelectedTeacher = true;
   }
   getAllSubject() {
+    this.loadSubjects = false;
     this.data.getAllSubject().then(data => {
       this.subjects = data;
+      this.loadSubjects = true;
     })
   }
   openModal(template: TemplateRef<any>) {

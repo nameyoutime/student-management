@@ -1,4 +1,8 @@
-<div id="contentbody">
+<div *ngIf="!this.loadParents" id="contentbody" style="margin-top:20%">
+  <app-spinner></app-spinner>
+</div>
+
+<div *ngIf="this.loadParents" id="contentbody">
   <h1 id="componentTitle">DANH SÁCH PHỤ HUYNH</h1>
 
   <div class="input-group" id="search_div">
@@ -13,7 +17,7 @@
       </div>
       <div id="addParentsbtn">
         <button type="button" class="btn btn-primary"
-          (click)="this.getAllParents();this.getAllParents();openModal(addParents)">Thêm phụ huynh</button>
+          (click)="openModal(addParents)">Thêm phụ huynh</button>
       </div>
     </div>
   </div>
@@ -22,16 +26,16 @@
       <table class="table align-middle">
         <thead>
           <tr>
-            <th scope="col">ID </th>
-            <th scope="col">Tên cha <i class="bi bi-caret-up-fill" (click)="this.sort('DadName','asc')"></i><i class="bi bi-caret-down-fill"(click)="this.sort('DadName','dsc')"></i></th>
-            <th scope="col">Tên mẹ <i class="bi bi-caret-up-fill" (click)="this.sort('MomName','asc')"></i><i class="bi bi-caret-down-fill"(click)="this.sort('MomName','dsc')"></i></th>
+            <th scope="col"># </th>
+            <th scope="col">Tên cha <i class="bi bi-caret-up-fill pointer" (click)="this.sort('DadName','asc')"></i><i class="bi bi-caret-down-fill pointer"(click)="this.sort('DadName','dsc')"></i></th>
+            <th scope="col">Tên mẹ <i class="bi bi-caret-up-fill pointer" (click)="this.sort('MomName','asc')"></i><i class="bi bi-caret-down-fill pointer"(click)="this.sort('MomName','dsc')"></i></th>
             <th scope="col">Địa chỉ</th>
             <th scope="col">Chức năng</th>
           </tr>
         </thead>
-        <tbody *ngFor="let parent of this.parentsList | paginate: { itemsPerPage: 5, currentPage: this.p }">
+        <tbody *ngFor="let parent of this.parentsList | paginate: { itemsPerPage: 5, currentPage: this.p };let i =index">
           <tr scope="row">
-            <td>{{parent._id}}</td>
+            <td>{{(this.p-1) * 5 + i + 1}}</td>
             <td>{{parent.DadName}}</td>
             <td>{{parent.MomName}}</td>
             <td>{{parent.Address}}</td>
@@ -41,7 +45,7 @@
                 Chi tiết
               </button>
               <button type="button" class="btn btn-primary btn-sm px-3"
-                (click)="this.getAllParents();this.fillUpdateParentsForm(parent._id);openModal(updateParentsmodal)">
+                (click)="this.fillUpdateParentsForm(parent._id);openModal(updateParentsmodal)">
                 Cập nhật
               </button>
               <button type="button" class="btn btn-danger btn-sm px-3" (click)="this.deleteParents(parent._id)">
@@ -63,6 +67,8 @@
       <span aria-hidden="true">×</span>
     </button>
   </div>
+
+
   <form [formGroup]="addParentForm" (ngSubmit)="addNewParents()">
     <div class="modal-body">
       <div id="addForm">
@@ -89,16 +95,19 @@
       <span aria-hidden="true">×</span>
     </button>
   </div>
+  <div *ngIf="!this.loadSelectedParents" class="modal-body">
+    <app-spinner></app-spinner>
+  </div>
 
-  <div class="modal-body">
+  <div *ngIf="this.loadSelectedParents" class="modal-body">
     <div id="addForm">
-      <h2>ID Phụ huynh:<b> {{this.selectedParents._id}}</b></h2>
+      <!-- <h2>ID Phụ huynh:<b> {{this.selectedParents._id}}</b></h2> -->
       <p>Tên cha : <b>{{this.selectedParents.DadName}}</b></p>
       <p>Tên mẹ : <b>{{this.selectedParents.MomName}}</b></p>
       <p>Địa chỉ: <b>{{this.selectedParents.Address}}</b></p>
     </div>
   </div>
-  <div class="modal-footer">
+  <div class="modal-footer" *ngIf="this.loadSelectedParents">
     <button type="button" class="btn btn-secondary" (click)="modalRef.hide()">Đóng</button>
 
   </div>
@@ -112,8 +121,11 @@
       <span aria-hidden="true">×</span>
     </button>
   </div>
+  <div *ngIf="!this.loadSelectedParents" class="modal-body">
+    <app-spinner></app-spinner>
+  </div>
   <form [formGroup]="updateParentForm" (ngSubmit)="this.updateParents()">
-    <div class="modal-body">
+    <div *ngIf="this.loadSelectedParents" class="modal-body">
       <div id="addForm">
         <label for="Name">Tên cha</label>
         <input type="text" class="form-control" placeholder="Nhập tên cha" formControlName="DadName">
@@ -123,7 +135,7 @@
         <input type="text" class="form-control" placeholder="Nhập chi tiết" formControlName="Address">
       </div>
     </div>
-    <div class="modal-footer">
+    <div class="modal-footer" *ngIf="this.loadSelectedParents">
       <button type="button" class="btn btn-secondary" (click)="modalRef.hide()">Đóng</button>
       <button type="submit" class="btn btn-primary" (click)="modalRef.hide()">Cập nhật</button>
     </div>

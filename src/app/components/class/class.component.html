@@ -1,4 +1,8 @@
-<div id="contentbody">
+<div *ngIf="!this.loadClasees" id="contentbody" style="margin-top: 20%;">
+  <app-spinner></app-spinner>
+</div>
+
+<div *ngIf="this.loadClasees" id="contentbody">
   <h1 id="componentTitle">DANH SÁCH LỚP HỌC</h1>
 
   <div class="input-group" id="search_div">
@@ -13,7 +17,7 @@
       </div>
       <div id="addClassbtn">
         <button type="button" class="btn btn-primary"
-          (click)="this.getAllClass();this.getAllClass();openModal(addClass)">Thêm lớp học</button>
+          (click)="openModal(addClass)">Thêm lớp học</button>
       </div>
     </div>
   </div>
@@ -22,15 +26,15 @@
       <table class="table align-middle">
         <thead>
           <tr>
-            <th scope="col">ID </th>
-            <th scope="col">Room <i class="bi bi-caret-up-fill" (click)="this.sort('Room','asc')"></i><i class="bi bi-caret-down-fill"(click)="this.sort('Room','dsc')"></i></th>
+            <th scope="col"># </th>
+            <th scope="col">Room <i class="bi bi-caret-up-fill pointer" (click)="this.sort('Room','asc')"></i><i class="bi bi-caret-down-fill pointer"(click)="this.sort('Room','dsc')"></i></th>
             <th scope="col">Description</th>
             <th scope="col">Chức năng</th>
           </tr>
         </thead>
-        <tbody *ngFor="let class of this.classes | paginate: { itemsPerPage: 5, currentPage: this.p }">
+        <tbody *ngFor="let class of this.classes | paginate: { itemsPerPage: 5, currentPage: this.p };let i =index">
           <tr scope="row">
-            <td>{{class._id}}</td>
+            <td>{{(this.p-1) * 5 + i + 1}}</td>
             <td>{{class.Room}}</td>
             <td>{{class.Description}}</td>
             <td>
@@ -39,7 +43,7 @@
                 Chi tiết
               </button>
               <button type="button" class="btn btn-primary btn-sm px-3"
-                (click)="this.getAllClass();this.fillUpdateClassForm(class._id);openModal(updateClassmodal)">
+                (click)="this.fillUpdateClassForm(class._id);openModal(updateClassmodal)">
                 Cập nhật
               </button>
               <button type="button" class="btn btn-danger btn-sm px-3" (click)="this.deleteClass(class._id)">
@@ -84,15 +88,19 @@
       <span aria-hidden="true">×</span>
     </button>
   </div>
+  <div *ngIf="!this.loadSelectedClass" class="modal-body">
+    <app-spinner></app-spinner>
 
-  <div class="modal-body">
+  </div>
+
+  <div *ngIf="this.loadSelectedClass" class="modal-body">
     <div id="addForm">
-      <h2>ID lớp học:<b> {{this.selectedClass._id}}</b></h2>
+      <!-- <h2>ID lớp học:<b> {{this.selectedClass._id}}</b></h2> -->
       <p>Tên lớp học : <b>{{this.selectedClass.Room}}</b></p>
       <p>Chi tiết lớp học: <b>{{this.selectedClass.Description}}</b></p>
     </div>
   </div>
-  <div class="modal-footer">
+  <div class="modal-footer" *ngIf="this.loadSelectedClass">
     <button type="button" class="btn btn-secondary" (click)="modalRef.hide()">Đóng</button>
 
   </div>
@@ -106,15 +114,19 @@
       <span aria-hidden="true">×</span>
     </button>
   </div>
+  <div *ngIf="!this.loadSelectedClass" class="modal-body">
+    <app-spinner></app-spinner>
+
+  </div>
   <form [formGroup]="updateClassForm" (ngSubmit)="this.updateClass()">
-    <div class="modal-body">
+    <div *ngIf="this.loadSelectedClass" class="modal-body">
       <div id="addForm">
 
         <label for="Age">Chi tiết lớp học</label>
         <input type="text" class="form-control" placeholder="Nhập chi tiết" formControlName="Description">
       </div>
     </div>
-    <div class="modal-footer">
+    <div class="modal-footer" *ngIf="this.loadSelectedClass" >
       <button type="button" class="btn btn-secondary" (click)="modalRef.hide()">Đóng</button>
       <button type="submit" class="btn btn-primary" (click)="modalRef.hide()">Cập nhật</button>
     </div>

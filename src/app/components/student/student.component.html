@@ -1,4 +1,7 @@
-<div id="contentbody">
+<div *ngIf="!loadStudent" id="contentbody" style="margin-top: 20%;">
+  <app-spinner></app-spinner>
+</div>
+<div *ngIf="loadStudent" id="contentbody">
   <h1 id="componentTitle">DANH SÁCH HỌC SINH</h1>
 
   <div class="input-group" id="search_div">
@@ -23,25 +26,35 @@
       <table class="table align-middle">
         <thead>
           <tr>
-            <th scope="col">ID </th>
-            <th scope="col">Name<i class="bi bi-caret-up-fill" (click)="this.sort('Name','asc')"></i><i class="bi bi-caret-down-fill"(click)="this.sort('Name','dsc')"></i></th>
-            <th scope="col">Age<i class="bi bi-caret-up-fill" (click)="this.sort('Age','asc')"></i><i class="bi bi-caret-down-fill"(click)="this.sort('Age','dsc')"></i></th>
-            <th scope="col">Yob<i class="bi bi-caret-up-fill" (click)="this.sort('Yob','asc')"></i><i class="bi bi-caret-down-fill"(click)="this.sort('Yob','dsc')"></i></th>
-            <th scope="col">ParentsId</th>
-            <th scope="col">TeacherId</th>
-            <th scope="col">ClassId</th>
+            <th scope="col"># </th>
+            <th scope="col">Name<i class="bi bi-caret-up-fill pointer" (click)="this.sort('Name','asc')"></i><i
+                class="bi bi-caret-down-fill pointer" (click)="this.sort('Name','dsc')"></i></th>
+            <th scope="col">Age<i class="bi bi-caret-up-fill pointer" (click)="this.sort('Age','asc')"></i><i
+                class="bi bi-caret-down-fill pointer" (click)="this.sort('Age','dsc')"></i></th>
+            <th scope="col">Yob<i class="bi bi-caret-up-fill pointer" (click)="this.sort('Yob','asc')"></i><i
+                class="bi bi-caret-down-fill pointer" (click)="this.sort('Yob','dsc')"></i></th>
+            <th scope="col">Parents</th>
+            <th scope="col">Teacher</th>
+            <th scope="col">Class Room</th>
             <th scope="col">Chức năng</th>
           </tr>
         </thead>
-        <tbody *ngFor="let student of this.students | paginate: { itemsPerPage: 5, currentPage: this.p }">
+        <tbody *ngFor="let student of this.students | paginate: { itemsPerPage: 5, currentPage: this.p };let i=index">
           <tr scope="row">
-            <td>{{student._id}}</td>
+            <!-- <td>{{student._id}}</td> -->
+            <td>{{(this.p-1) * 5 + i + 1}}</td>
+            <!-- element.position+pageSize*(pageIndex-1) -->
+            <!-- <td *ngIf="this.p==1">{{i+1}}</td> -->
             <td>{{student.Name}}</td>
             <td>{{student.Age}}</td>
             <td>{{student.Yob}}</td>
-            <td>{{student.Parents}}</td>
-            <td>{{student.Teacher}}</td>
-            <td>{{student.Class}}</td>
+            <td *ngIf="student.Parents.length>0">Cha:{{student.Parents[0].DadName}} ,Me:{{student.Parents[0].MomName}}
+            </td>
+            <td *ngIf="student.Parents.length==0"></td>
+            <td *ngIf="student.Teacher.length>0">{{student.Teacher[0].Name}}</td>
+            <td *ngIf="student.Teacher.length==0"></td>
+            <td *ngIf="student.Class.length>0">{{student.Class[0].Room}}</td>
+            <td *ngIf="student.Class.length==0"></td>
             <td>
               <button type="button" class="btn btn-success btn-sm px-3"
                 (click)="this.getStudentDetail(student._id);openModal(studentdetail)">
@@ -70,15 +83,18 @@
       <span aria-hidden="true">×</span>
     </button>
   </div>
+  <div class="modal-body" *ngIf="!this.loadClasses||!this.loadParents||!this.loadTeachers">
+    <app-spinner></app-spinner>
+  </div>
   <form [formGroup]="addStudentForm" (ngSubmit)="addNewStudent()">
-    <div class="modal-body">
-      <div id="addForm" >
+    <div class="modal-body" *ngIf="this.loadClasses&&this.loadParents&&this.loadTeachers">
+      <div id="addForm">
         <label for="Name">Họ tên</label>
         <input type="text" class="form-control" placeholder="Nhập tên" formControlName="Name">
         <label for="Age">Tuổi</label>
         <input type="number" class="form-control" placeholder="Nhập tuổi" formControlName="Age">
         <label for="DOB">Ngày sinh</label>
-          <input type="text" class="form-control" placeholder="Nhập năm sinh" formControlName="Yob">
+        <input type="text" class="form-control" placeholder="Nhập năm sinh" formControlName="Yob">
         <br>
         <label for="Parents">Phụ huynh của học sinh:</label>
         <br>
@@ -103,7 +119,7 @@
         </select>
       </div>
     </div>
-    <div class="modal-footer">
+    <div class="modal-footer" *ngIf="this.loadClasses&&this.loadParents&&this.loadTeachers">
       <button type="button" class="btn btn-secondary" (click)="modalRef.hide()">Đóng</button>
       <button type="submit" class="btn btn-primary">Thêm mới</button>
     </div>
@@ -118,19 +134,21 @@
       <span aria-hidden="true">×</span>
     </button>
   </div>
-
-  <div class="modal-body">
+  <div class="modal-body" *ngIf="!this.loadselectedStudent">
+    <app-spinner></app-spinner>
+  </div>
+  <div class="modal-body" *ngIf="this.loadselectedStudent">
     <div id="addForm">
-      <h2>ID học sinh:<b> {{this.selectedStudent._id}}</b></h2>
+      <!-- <h2>ID học sinh:<b> {{this.selectedStudent._id}}</b></h2> -->
       <p>Tên : <b>{{this.selectedStudent.Name}}</b></p>
       <p>Tuổi: <b>{{this.selectedStudent.Age}}</b></p>
       <p>Năm sinh:<b>{{this.selectedStudent.Yob}}</b></p>
-      <p>Thông tin phụ huynh:<button (click)="openModal(studentParent)" class="btn btn-primary">Xem</button></p>
-      <p>Thông tin giáo viên:<button (click)="openModal(studentTeachers)" class="btn btn-primary">Xem</button></p>
-      <p>Thông tin lớp học:<button (click)="openModal(studentClasses)" class="btn btn-primary">Xem</button></p>
+      <p *ngIf="this.selectedStudent.Parents[0]?._id">Thông tin phụ huynh:<button (click)="openModal(studentParent)" class="btn btn-primary">Xem</button></p>
+      <p *ngIf="this.selectedStudent.Teacher[0]?._id">Thông tin giáo viên:<button (click)="openModal(studentTeachers)" class="btn btn-primary">Xem</button></p>
+      <p *ngIf="this.selectedStudent.Class[0]?._id">Thông tin lớp học:<button (click)="openModal(studentClasses)" class="btn btn-primary">Xem</button></p>
     </div>
   </div>
-  <div class="modal-footer">
+  <div class="modal-footer"*ngIf="this.loadselectedStudent" >
     <button type="button" class="btn btn-secondary" (click)="modalRef.hide()">Đóng</button>
 
   </div>
@@ -144,15 +162,18 @@
       <span aria-hidden="true">×</span>
     </button>
   </div>
+  <div class="modal-body" *ngIf="!this.loadselectedStudent||!this.loadTeachers||!this.loadClasses||!this.loadParents">
+    <app-spinner></app-spinner>
+  </div>
   <form [formGroup]="updateStudentForm" (ngSubmit)="updateStudent()">
-    <div class="modal-body">
+    <div class="modal-body" *ngIf="this.loadselectedStudent&&this.loadTeachers&&this.loadClasses&&this.loadParents">
       <div id="addForm">
         <label for="Name">Họ tên</label>
         <input type="text" class="form-control" placeholder="Nhập tên" formControlName="Name">
         <label for="Age">Tuổi</label>
         <input type="number" class="form-control" placeholder="Nhập tuổi" formControlName="Age">
         <label for="DOB">Năm sinh</label>
-          <input type="text" class="form-control" placeholder="Nhập năm sinh" formControlName="Yob">
+        <input type="text" class="form-control" placeholder="Nhập năm sinh" formControlName="Yob">
         <br>
         <label for="Parents">Phụ huynh của học sinh:</label>
         <br>
@@ -177,11 +198,12 @@
         </select>
       </div>
     </div>
-    <div class="modal-footer">
+    <div class="modal-footer" *ngIf="this.loadselectedStudent&&this.loadTeachers&&this.loadClasses&&this.loadParents">
       <button type="button" class="btn btn-secondary" (click)="modalRef.hide()">Đóng</button>
       <button type="submit" class="btn btn-primary" (click)="modalRef.hide()">Cập nhật</button>
     </div>
   </form>
+
 </ng-template>
 
 
@@ -199,7 +221,7 @@
         <table class="table align-middle">
           <thead>
             <tr>
-              <th scope="col">ID </th>
+              <!-- <th scope="col">ID </th> -->
               <th scope="col">DadName</th>
               <th scope="col">MomName</th>
               <th scope="col">Address</th>
@@ -207,7 +229,7 @@
           </thead>
           <tbody>
             <tr scope="row" *ngFor="let parent of this.selectedStudent.Parents">
-              <td>{{parent._id}}</td>
+              <!-- <td>{{parent._id}}</td> -->
               <td>{{parent.DadName}}</td>
               <td>{{parent.MomName}}</td>
               <td>{{parent.Address}}</td>
@@ -237,7 +259,7 @@
         <table class="table align-middle">
           <thead>
             <tr>
-              <th scope="col">ID </th>
+              <!-- <th scope="col">ID </th> -->
               <th scope="col">Name</th>
               <th scope="col">Age</th>
               <th scope="col">Address</th>
@@ -246,7 +268,7 @@
           </thead>
           <tbody>
             <tr scope="row" *ngFor="let teacher of this.selectedStudent.Teacher">
-              <td>{{teacher._id}}</td>
+              <!-- <td>{{teacher._id}}</td> -->
               <td>{{teacher.Name}}</td>
               <td>{{teacher.Age}}</td>
               <td>{{teacher.Address}}</td>
@@ -276,14 +298,14 @@
         <table class="table align-middle">
           <thead>
             <tr>
-              <th scope="col">ID </th>
+              <!-- <th scope="col">ID </th> -->
               <th scope="col">Room</th>
               <th scope="col">Description</th>
             </tr>
           </thead>
           <tbody>
             <tr scope="row" *ngFor="let class of this.selectedStudent.Class">
-              <td>{{class._id}}</td>
+              <!-- <td>{{class._id}}</td> -->
               <td>{{class.Room}}</td>
               <td>{{class.Description}}</td>
             </tr>

@@ -12,6 +12,9 @@ import { Parent } from 'src/app/models/Parent.model';
 export class ParentsComponent implements OnInit {
 
   public parentsList: Parent[] = [];
+  public loadParents: boolean = false;
+  public loadSelectedParents: boolean = false;
+
   p: any = 1;
   public selectedParents: Parent = new Parent();
   addParentForm = new FormGroup({
@@ -29,15 +32,20 @@ export class ParentsComponent implements OnInit {
   modalRef: any;
   constructor(private modalService: BsModalService, public data: DataBUSService) {
     this.modalRef = BsModalRef
-    this.getAllParents();
+    
   }
 
   ngOnInit(): void {
+    this.getAllParents();
   }
 
   getAllParents() {
+    this.loadParents = false;
+
     this.data.getAllParent().then(data => {
       this.parentsList = data;
+      this.loadParents = true;
+      console.log(data);
     })
   }
   addNewParents() {
@@ -45,7 +53,7 @@ export class ParentsComponent implements OnInit {
 
     if (this.addParentForm.valid) {
       let newParents = new Parent(
-        null, form.DadName.value,form.MomName.value, form.Address.value,
+        null, form.DadName.value, form.MomName.value, form.Address.value,
       )
       this.data.createParents(newParents).then(() => {
         alert("Thêm phụ huynh thành công");
@@ -59,7 +67,7 @@ export class ParentsComponent implements OnInit {
     let form = this.updateParentForm.controls;
     if (this.updateParentForm.valid) {
       let newParents = new Parent(
-        this.selectedParents._id, form.DadName.value,form.MomName.value, form.Address.value,
+        this.selectedParents._id, form.DadName.value, form.MomName.value, form.Address.value,
       )
       this.data.updateParents(newParents).then(() => {
         alert("Cập nhật phụ  huynh thành công");
@@ -76,6 +84,8 @@ export class ParentsComponent implements OnInit {
     })
   }
   getParentsDetail(Id: any) {
+    this.loadSelectedParents = false;
+
     this.data.getParentsDetail(Id).then(data => {
       this.selectedParents = data;
       this.timeout();
@@ -93,9 +103,9 @@ export class ParentsComponent implements OnInit {
       this.getAllParents();
     }
   }
-  sort(field:any,sort:any){
-    this.data.sortParent(field,sort).then(data=>{
-      this.parentsList=data
+  sort(field: any, sort: any) {
+    this.data.sortParent(field, sort).then(data => {
+      this.parentsList = data
     })
 
   }
@@ -104,12 +114,14 @@ export class ParentsComponent implements OnInit {
     this.getParentsDetail(Id);
 
   }
-  timeout(){
+  timeout() {
     this.updateParentForm.setValue({
       DadName: this.selectedParents.DadName,
       MomName: this.selectedParents.MomName,
       Address: this.selectedParents.Address,
     })
+    this.loadSelectedParents = true;
+
   }
 
   openModal(template: TemplateRef<any>) {

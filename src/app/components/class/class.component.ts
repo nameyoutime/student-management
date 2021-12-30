@@ -12,6 +12,9 @@ import { Class } from 'src/app/models/Class.model';
 export class ClassComponent implements OnInit {
 
   public classes: Class[] = [];
+  public loadClasees: boolean = false;
+  public loadSelectedClass: boolean = false;
+
   p: any = 1;
   public selectedClass: Class = new Class();
   addClassForm = new FormGroup({
@@ -33,8 +36,11 @@ export class ClassComponent implements OnInit {
   }
 
   getAllClass() {
+    this.loadClasees = false;
     this.data.getAllClass().then(data => {
       this.classes = data;
+      this.loadClasees = true;
+
     })
   }
   addNewClass() {
@@ -73,6 +79,7 @@ export class ClassComponent implements OnInit {
     })
   }
   getClassDetail(Id: any) {
+    this.loadSelectedClass=false;
     this.data.getClassDetail(Id).then(data => {
       this.selectedClass = data;
       this.timeout();
@@ -100,6 +107,8 @@ export class ClassComponent implements OnInit {
       Description: this.selectedClass.Description,
 
     })
+    this.loadSelectedClass=true;
+
   }
   sort(field: any, sort: any) {
     this.data.sortClass(field, sort).then(data => {

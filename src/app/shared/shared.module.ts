@@ -15,8 +15,11 @@ import { TeacherComponent } from '../components/teacher/teacher.component';
 import { ClassComponent } from '../components/class/class.component';
 import { ParentsComponent } from '../components/parents/parents.component';
 import { SubjectComponent } from '../components/subject/subject.component';
+import { SpinnerComponent } from '../components/spinner/spinner.component';
+
+
 @NgModule({
-  declarations: [StudentComponent, SidebarComponent, NavbarComponent,TeacherComponent,ClassComponent,ParentsComponent,SubjectComponent],
+  declarations: [SpinnerComponent,StudentComponent, SidebarComponent, NavbarComponent,TeacherComponent,ClassComponent,ParentsComponent,SubjectComponent],
   imports: [
     CommonModule,
     SharedRoutingModule,
@@ -28,8 +31,8 @@ import { SubjectComponent } from '../components/subject/subject.component';
 
 
   ],
-  exports: [StudentComponent, ModalModule, FormsModule, ReactiveFormsModule, NgbDatepickerModule, SidebarComponent, CommonModule, NavbarComponent,
-    NgbDropdownMenu, NgxPaginationModule,TeacherComponent,ClassComponent,ParentsComponent,SubjectComponent],
+  exports: [SpinnerComponent,StudentComponent, ModalModule, FormsModule, ReactiveFormsModule, NgbDatepickerModule, SidebarComponent, CommonModule, NavbarComponent,
+    NgbDropdownMenu, NgxPaginationModule,TeacherComponent,ClassComponent,ParentsComponent,SubjectComponent,],
   providers: [BsModalService]
 })
 export class SharedModule { }

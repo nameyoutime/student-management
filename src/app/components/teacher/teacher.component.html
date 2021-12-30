@@ -1,4 +1,7 @@
-<div id="contentbody">
+<div *ngIf="!loadTeachers" id="contentbody" style="margin-top: 20%;">
+  <app-spinner></app-spinner>
+</div>
+<div *ngIf="loadTeachers" id="contentbody">
   <h1 id="componentTitle">DANH SÁCH GIÁO VIÊN</h1>
 
   <div class="input-group" id="search_div">
@@ -13,7 +16,7 @@
       </div>
       <div id="addTeacherbtn">
         <button type="button" class="btn btn-primary"
-          (click)="this.getAllSubject();this.getAllTeacher();openModal(addTeacher)">Thêm giáo viên</button>
+          (click)="getAllSubject();openModal(addTeacher)">Thêm giáo viên</button>
       </div>
     </div>
   </div>
@@ -22,21 +25,23 @@
       <table class="table align-middle">
         <thead>
           <tr>
-            <th scope="col">ID </th>
-            <th scope="col">Name<i class="bi bi-caret-up-fill" (click)="this.sort('Name','asc')"></i><i class="bi bi-caret-down-fill"(click)="this.sort('Name','dsc')"></i></th>
-            <th scope="col">Age<i class="bi bi-caret-up-fill" (click)="this.sort('Age','asc')"></i><i class="bi bi-caret-down-fill"(click)="this.sort('Age','dsc')"></i></th>
+            <th scope="col"># </th>
+            <th scope="col">Name<i class="bi bi-caret-up-fill pointer"  (click)="this.sort('Name','asc')"></i><i class="bi bi-caret-down-fill pointer"(click)="this.sort('Name','dsc')"></i></th>
+            <th scope="col">Age<i class="bi bi-caret-up-fill pointer"  (click)="this.sort('Age','asc')"></i><i class="bi bi-caret-down-fill pointer"(click)="this.sort('Age','dsc')"></i></th>
             <th scope="col">Address</th>
-            <th scope="col">SubjectId</th>
+            <th scope="col">Subject</th>
             <th scope="col">Chức năng</th>
           </tr>
         </thead>
-        <tbody *ngFor="let Teacher of this.teachers | paginate: { itemsPerPage: 5, currentPage: this.p }">
+        <tbody *ngFor="let Teacher of this.teachers | paginate: { itemsPerPage: 5, currentPage: this.p };let i= index">
           <tr scope="row">
-            <td>{{Teacher._id}}</td>
+            <td>{{(this.p-1) * 5 + i + 1}}</td>
             <td>{{Teacher.Name}}</td>
             <td>{{Teacher.Age}}</td>
             <td>{{Teacher.Address}}</td>
-            <td>{{Teacher.Subject}}</td>
+            <td *ngIf="Teacher.Subject.length>0">{{Teacher.Subject[0].Title}}</td>
+            <td *ngIf="Teacher.Subject.length==0"> </td>
+
             <td>
               <button type="button" class="btn btn-success btn-sm px-3"
                 (click)="this.getTeacherDetail(Teacher._id);openModal(Teacherdetail)">
@@ -65,8 +70,11 @@
       <span aria-hidden="true">×</span>
     </button>
   </div>
+  <div *ngIf="!this.loadSubjects" class="modal-body">
+    <app-spinner></app-spinner>
+  </div>
   <form [formGroup]="addTeacherForm" (ngSubmit)="addNewTeacher()">
-    <div class="modal-body">
+    <div *ngIf="this.loadSubjects" class="modal-body">
       <div id="addForm">
         <label for="Name">Họ tên</label>
         <input type="text" class="form-control" placeholder="Nhập tên" formControlName="Name">
@@ -84,7 +92,7 @@
         </select>
       </div>
     </div>
-    <div class="modal-footer">
+    <div class="modal-footer" *ngIf="this.loadSubjects">
       <button type="button" class="btn btn-secondary" (click)="modalRef.hide()">Đóng</button>
       <button type="submit" class="btn btn-primary">Thêm mới</button>
     </div>
@@ -99,17 +107,20 @@
       <span aria-hidden="true">×</span>
     </button>
   </div>
+  <div *ngIf="!this.loadSelectedTeacher" class="modal-body">
+    <app-spinner></app-spinner>
+  </div>
 
-  <div class="modal-body">
+  <div *ngIf="this.loadSelectedTeacher" class="modal-body">
     <div id="addForm">
-      <h2>ID giáo viên:<b> {{this.selectedTeacher._id}}</b></h2>
+      <!-- <h2>ID giáo viên:<b> {{this.selectedTeacher._id}}</b></h2> -->
       <p>Tên : <b>{{this.selectedTeacher.Name}}</b></p>
       <p>Tuổi: <b>{{this.selectedTeacher.Age}}</b></p>
       <p>Địa chỉ:<b>{{this.selectedTeacher.Address}}</b></p>
       <p>Thông tin môn học đảm nhiệm:<button (click)="openModal(teacherSubjects)" class="btn btn-primary">Xem</button></p>
     </div>
   </div>
-  <div class="modal-footer">
+  <div class="modal-footer" *ngIf="this.loadSelectedTeacher">
     <button type="button" class="btn btn-secondary" (click)="modalRef.hide()">Đóng</button>
 
   </div>
@@ -123,8 +134,11 @@
       <span aria-hidden="true">×</span>
     </button>
   </div>
+  <div *ngIf="!this.loadSubjects" class="modal-body">
+    <app-spinner></app-spinner>
+  </div>
   <form [formGroup]="updateTeacherForm" (ngSubmit)="this.updateTeacher()">
-    <div class="modal-body">
+    <div *ngIf="this.loadSubjects" class="modal-body">
       <div id="addForm">
         <label for="Name">Họ tên</label>
         <input type="text" class="form-control" placeholder="Nhập tên" formControlName="Name">
@@ -142,7 +156,7 @@
         </select>
       </div>
     </div>
-    <div class="modal-footer">
+    <div class="modal-footer" *ngIf="this.loadSubjects">
       <button type="button" class="btn btn-secondary" (click)="modalRef.hide()">Đóng</button>
       <button type="submit" class="btn btn-primary" (click)="modalRef.hide()">Cập nhật</button>
     </div>
@@ -163,14 +177,14 @@
         <table class="table align-middle">
           <thead>
             <tr>
-              <th scope="col">ID </th>
+              <!-- <th scope="col">ID </th> -->
               <th scope="col">Tên môn học</th>
               <th scope="col">Description</th>
             </tr>
           </thead>
           <tbody>
             <tr scope="row" *ngFor="let subject of this.selectedTeacher.Subject">
-              <td>{{subject._id}}</td>
+              <!-- <td>{{subject._id}}</td> -->
               <td>{{subject.Title}}</td>
               <td>{{subject.Description}}</td>
             </tr>
