@@ -67,7 +67,6 @@ export class StudentComponent implements OnInit {
       let newStudent = new Student(
         null, form.Name.value, form.Age.value, form.Yob.value, form.Parents.value, form.Teacher.value, form.Class.value
       )
-      // console.log(this.addStudentForm.value);
       this.data.createStudent(newStudent).then(() => {
         alert("Thêm học sinh thành công");
 
@@ -108,6 +107,7 @@ export class StudentComponent implements OnInit {
     this.loadselectedStudent =false;
     this.data.getStudentDetail(Id).then(data => {
       this.selectedStudent = data;
+      
       this.timeout();
     })
 

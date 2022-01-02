@@ -98,7 +98,6 @@ export class TeacherComponent implements OnInit {
     let keyword = (<HTMLInputElement>document.getElementById("searchKeyword")).value
     if (keyword.trim()) {
       this.data.searchTeacher(keyword.trim()).then(data => {
-        console.log(data);
         this.teachers = data
       })
     } else {

@@ -21,8 +21,8 @@ export const environment = {
     appId: "1:780534211012:web:74b1ef9a41b047f7e40491"
   },
   production: false,
-  URL:"https://student-management-server-nameyoutime.vercel.app/api/"
-  // URL:"http://localhost:8080/api/"
+  // URL:"https://student-management-server-nameyoutime.vercel.app/api/"
+  URL:"http://localhost:8080/api/"
 };
 
 /*

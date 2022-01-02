@@ -143,12 +143,15 @@
       <p>Tên : <b>{{this.selectedStudent.Name}}</b></p>
       <p>Tuổi: <b>{{this.selectedStudent.Age}}</b></p>
       <p>Năm sinh:<b>{{this.selectedStudent.Yob}}</b></p>
-      <p *ngIf="this.selectedStudent.Parents[0]?._id">Thông tin phụ huynh:<button (click)="openModal(studentParent)" class="btn btn-primary">Xem</button></p>
-      <p *ngIf="this.selectedStudent.Teacher[0]?._id">Thông tin giáo viên:<button (click)="openModal(studentTeachers)" class="btn btn-primary">Xem</button></p>
-      <p *ngIf="this.selectedStudent.Class[0]?._id">Thông tin lớp học:<button (click)="openModal(studentClasses)" class="btn btn-primary">Xem</button></p>
+      <p *ngIf="this.selectedStudent.Parents[0]?._id">Thông tin phụ huynh:<button (click)="openModal(studentParent)"
+          class="btn btn-primary">Xem</button></p>
+      <p *ngIf="this.selectedStudent.Teacher[0]?._id">Thông tin giáo viên:<button (click)="openModal(studentTeachers)"
+          class="btn btn-primary">Xem</button></p>
+      <p *ngIf="this.selectedStudent.Class[0]?._id">Thông tin lớp học:<button (click)="openModal(studentClasses)"
+          class="btn btn-primary">Xem</button></p>
     </div>
   </div>
-  <div class="modal-footer"*ngIf="this.loadselectedStudent" >
+  <div class="modal-footer" *ngIf="this.loadselectedStudent">
     <button type="button" class="btn btn-secondary" (click)="modalRef.hide()">Đóng</button>
 
   </div>
@@ -273,7 +276,7 @@
               <td>{{teacher.Age}}</td>
               <td>{{teacher.Address}}</td>
               <td>
-                <p *ngFor="let subject of teacher.Subject">{{subject}}</p>
+                {{teacher.Subject[0].Title}}
               </td>
             </tr>
           </tbody>

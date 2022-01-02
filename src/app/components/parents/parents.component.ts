@@ -45,7 +45,6 @@ export class ParentsComponent implements OnInit {
     this.data.getAllParent().then(data => {
       this.parentsList = data;
       this.loadParents = true;
-      console.log(data);
     })
   }
   addNewParents() {
