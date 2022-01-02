@@ -43,7 +43,7 @@ router.get('/sort/:field', async (req, res) => {
 
 router.get('/keyword/:keyword', async (req, res) => {
     let keyword = req.params.keyword;
-    let result = await TeacherDB.find({ Name: { $regex: keyword, $options: 'i' } })
+    let result = await TeacherDB.find({ Name: { $regex: keyword, $options: 'i' } }).populate("Subject");
     res.send({ data: result })
 })
 

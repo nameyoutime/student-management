@@ -22,7 +22,7 @@ router.get('/:id', async (req, res) => {
 
 router.get('/keyword/:keyword', async (req, res) => {
     let keyword = req.params.keyword;
-    let result = await StudentDB.find({ Name: { $regex: keyword, $options: 'i' } })
+    let result = await StudentDB.find({ Name: { $regex: keyword, $options: 'i' } }).populate("Parents").populate('Teacher').populate("Class");
     res.send({ data: result })
 })
 
