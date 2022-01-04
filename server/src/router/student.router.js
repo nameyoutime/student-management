@@ -34,24 +34,24 @@ router.get('/sort/:field', async (req, res) => {
     let data;
     if (field == "Name") {
         if (sort == "asc") {
-            data = await StudentDB.find().sort({ Name: 1 });
+            data = await StudentDB.find().populate("Parents").populate('Teacher').populate("Class").sort({ Name: 1 });
         } else if (sort == "dsc") {
-            data = await StudentDB.find().sort({ Name: -1 });
+            data = await StudentDB.find().populate("Parents").populate('Teacher').populate("Class").sort({ Name: -1 });
         }
     } else if (field == "Age") {
         if (sort == "asc") {
-            data = await StudentDB.find().sort({ Age: 1 });
+            data = await StudentDB.find().populate("Parents").populate('Teacher').populate("Class").sort({ Age: 1 });
         } else if (sort == "dsc") {
-            data = await StudentDB.find().sort({ Age: -1 });
+            data = await StudentDB.find().populate("Parents").populate('Teacher').populate("Class").sort({ Age: -1 });
         }
     } else if (field == "Yob") {
         if (sort == "asc") {
-            data = await StudentDB.find().sort({ Yob: 1 });
+            data = await StudentDB.find().populate("Parents").populate('Teacher').populate("Class").sort({ Yob: 1 });
         } else if (sort == "dsc") {
-            data = await StudentDB.find().sort({ Yob: -1 });
+            data = await StudentDB.find().populate("Parents").populate('Teacher').populate("Class").sort({ Yob: -1 });
         }
     } else {
-        data = await StudentDB.find();
+        data = await StudentDB.find().populate("Parents").populate('Teacher').populate("Class");
     }
     res.send({ data: data })
 })

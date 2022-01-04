@@ -25,18 +25,18 @@ router.get('/sort/:field', async (req, res) => {
     let data = [];
     if (field == "Name") {
         if (sort == "asc") {
-            data = await TeacherDB.find().sort({ Name: 1 });
+            data = await TeacherDB.find().populate('Subject').sort({ Name: 1 });
         } else if (sort == "dsc") {
-            data = await TeacherDB.find().sort({ Name: -1 });
+            data = await TeacherDB.find().populate('Subject').sort({ Name: -1 });
         }
     } else if (field == "Age") {
         if (sort == "asc") {
-            data = await TeacherDB.find().sort({ Age: 1 });
+            data = await TeacherDB.find().populate('Subject').sort({ Age: 1 });
         } else if (sort == "dsc") {
-            data = await TeacherDB.find().sort({ Age: -1 });
+            data = await TeacherDB.find().populate('Subject').sort({ Age: -1 });
         }
     } else {
-        data = await TeacherDB.find();
+        data = await TeacherDB.find().populate('Subject');
     }
     res.send({ data: data })
 })
