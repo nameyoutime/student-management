@@ -8,7 +8,6 @@ import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { Teacher } from 'src/app/models/Teacher.model';
 import { Parent } from 'src/app/models/Parent.model';
 import { Class } from 'src/app/models/Class.model';
-import { } from '../../shared/shared.module'
 @Component({
   selector: 'app-student',
   templateUrl: './student.component.html',

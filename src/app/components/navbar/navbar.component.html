@@ -10,7 +10,7 @@
                 <img *ngIf="!user.photoURL" style="width:2rem;" class=" bg-info rounded-circle"
                     src="https://icon-library.com/images/default-profile-icon/default-profile-icon-16.jpg"
                     alt="photo" />
-                <img *ngIf="user.photoURL" style="width:2rem;" class="bg-info rounded-circle" src="{{user.photoURL}}"
+                <img *ngIf="user.photoURL" style="width:2rem;" class="bg-info rounded-circle" src={{user.photoURL}}
                     alt="photo" />
             </li>
             <li class="nav-item active">

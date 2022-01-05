@@ -12,7 +12,6 @@ export class NavbarComponent implements OnInit {
   public isMenuCollapsed = this.shareSer.isNavBarCollapsed;
   public user: any = this.authSer.user;
   constructor(public shareSer:ShareService, public authSer: AuthService) {
-
   }
   ngOnInit(): void {
     
