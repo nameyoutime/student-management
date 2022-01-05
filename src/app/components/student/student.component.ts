@@ -8,6 +8,7 @@ import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { Teacher } from 'src/app/models/Teacher.model';
 import { Parent } from 'src/app/models/Parent.model';
 import { Class } from 'src/app/models/Class.model';
+import { ShareService } from 'src/app/services/share.service';
 @Component({
   selector: 'app-student',
   templateUrl: './student.component.html',
@@ -43,7 +44,7 @@ export class StudentComponent implements OnInit {
     Class: new FormControl('', []),
   })
   modalRef: any;
-  constructor(private modalService: BsModalService, public data: DataBUSService) {
+  constructor(private modalService: BsModalService, public data: DataBUSService,private shared:ShareService) {
     this.modalRef = BsModalRef
     this.getAllStudent();
   }
@@ -67,13 +68,15 @@ export class StudentComponent implements OnInit {
         null, form.Name.value, form.Age.value, form.Yob.value, form.Parents.value, form.Teacher.value, form.Class.value
       )
       this.data.createStudent(newStudent).then(() => {
-        alert("Thêm học sinh thành công");
+        this.shared.showToast("Success","Thêm học sinh thành công");
+
 
       }).finally(() => {
         this.getAllStudent();
       });
     } else {
-      alert("Vui lòng nhập đủ thông tin")
+      this.shared.showToast("Error","Vui lòng nhập đủ thông tin",true);
+
     }
   }
   updateStudent() {
@@ -85,18 +88,21 @@ export class StudentComponent implements OnInit {
         this.selectedStudent._id, form.Name.value, form.Age.value, form.Yob.value, form.Parents.value, form.Teacher.value, form.Class.value
       )
       this.data.updateStudent(newStudent).then(() => {
-        alert("Cập nhật học sinh thành công");
+        this.shared.showToast("Success","Cập nhật học sinh thành công");
+
 
       }).finally(() => {
         this.getAllStudent();
       });
     } else {
-      alert("Vui lòng nhập đủ thông tin")
+      this.shared.showToast("Error","Vui lòng nhập đủ thông tin",true);
+
     }
   }
   async deleteStudent(Id: any) {
     await this.data.deteleStudent(Id).then(() => {
-      alert("Xóa thành công");
+      this.shared.showToast("Success","Xóa thành công");
+
 
     }).finally(() => {
       this.getAllStudent();

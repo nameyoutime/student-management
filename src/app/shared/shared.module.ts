@@ -15,6 +15,7 @@ import { ParentsComponent } from '../components/parents/parents.component';
 import { SubjectComponent } from '../components/subject/subject.component';
 import { SpinnerComponent } from '../components/spinner/spinner.component';
 
+import { ToastrModule } from 'ngx-toastr';
 
 
 @NgModule({
@@ -26,7 +27,9 @@ import { SpinnerComponent } from '../components/spinner/spinner.component';
     NgbDatepickerModule,
     NgbModule,
     NgxPaginationModule,
-    SharedRoutingModule
+    SharedRoutingModule,
+    ToastrModule.forRoot(), // ToastrModule added
+
 
   ],
   exports: [SpinnerComponent,StudentComponent, ModalModule, FormsModule, ReactiveFormsModule, NgbDatepickerModule, SidebarComponent, CommonModule, NavbarComponent,

@@ -8,6 +8,7 @@ import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { Teacher } from 'src/app/models/Teacher.model';
 import { Subject } from 'src/app/models/Subject.model';
 import { Class } from 'src/app/models/Class.model';
+import { ShareService } from 'src/app/services/share.service';
 @Component({
   selector: 'app-teacher',
   templateUrl: './teacher.component.html',
@@ -36,7 +37,7 @@ export class TeacherComponent implements OnInit {
     Subject: new FormControl('', []),
   })
   modalRef: any;
-  constructor(private modalService: BsModalService, public data: DataBUSService) {
+  constructor(private modalService: BsModalService, public data: DataBUSService,private shared:ShareService) {
     this.modalRef = BsModalRef
     this.getAllTeacher();
   }
@@ -59,11 +60,11 @@ export class TeacherComponent implements OnInit {
         null, form.Name.value, form.Age.value, form.Address.value, form.Subject.value
       )
       this.data.createTeacher(newTeacher).then(() => {
-        alert("Thêm giáo viên thành công");
+        this.shared.showToast("Success","Thêm giáo viên thành công");
         this.getAllTeacher();
       });
     } else {
-      alert("Vui lòng nhập đủ thông tin")
+      this.shared.showToast("Error","Vui lòng nhập đủ thông tin",true);
     }
   }
   updateTeacher() {
@@ -73,16 +74,18 @@ export class TeacherComponent implements OnInit {
         this.selectedTeacher._id, form.Name.value, form.Age.value, form.Address.value, form.Subject.value
       )
       this.data.updateTeacher(newTeacher).then(() => {
-        alert("Cập nhật giáo viên thành công");
+        this.shared.showToast("Success","Cập nhật giáo viên thành công");
+
         this.getAllTeacher();
       });
     } else {
-      alert("Vui lòng nhập đủ thông tin")
+      this.shared.showToast("Error","Vui lòng nhập đủ thông tin",true);
+
     }
   }
   async deleteTeacher(Id: any) {
     await this.data.deteleTeacher(Id).then(() => {
-      alert("Xóa thành công");
+      this.shared.showToast("Success","Xóa thành công");
       this.getAllTeacher();
     })
   }

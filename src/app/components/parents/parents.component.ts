@@ -3,6 +3,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Component, OnInit, TemplateRef } from '@angular/core';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { Parent } from 'src/app/models/Parent.model';
+import { ShareService } from 'src/app/services/share.service';
 
 @Component({
   selector: 'app-parents',
@@ -30,7 +31,7 @@ export class ParentsComponent implements OnInit {
 
   })
   modalRef: any;
-  constructor(private modalService: BsModalService, public data: DataBUSService) {
+  constructor(private modalService: BsModalService, public data: DataBUSService,private shared:ShareService) {
     this.modalRef = BsModalRef
     
   }
@@ -55,11 +56,13 @@ export class ParentsComponent implements OnInit {
         null, form.DadName.value, form.MomName.value, form.Address.value,
       )
       this.data.createParents(newParents).then(() => {
-        alert("Thêm phụ huynh thành công");
+        this.shared.showToast("Success","Thêm phụ huynh thành công");
+
         this.getAllParents();
       });
     } else {
-      alert("Vui lòng nhập đủ thông tin")
+      this.shared.showToast("Error","Vui lòng nhập đủ thông tin",true);
+
     }
   }
   updateParents() {
@@ -69,16 +72,19 @@ export class ParentsComponent implements OnInit {
         this.selectedParents._id, form.DadName.value, form.MomName.value, form.Address.value,
       )
       this.data.updateParents(newParents).then(() => {
-        alert("Cập nhật phụ  huynh thành công");
+        this.shared.showToast("Success","Cập nhật phụ  huynh thành công");
+
         this.getAllParents();
       });
     } else {
-      alert("Vui lòng nhập đủ thông tin")
+      this.shared.showToast("Error","Vui lòng nhập đủ thông tin",true);
+
     }
   }
   async deleteParents(Id: any) {
     await this.data.deteleParents(Id).then(() => {
-      alert("Xóa thành công");
+      this.shared.showToast("Success","Xóa thành công");
+
       this.getAllParents();
     })
   }

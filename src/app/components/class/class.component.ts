@@ -3,6 +3,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Component, OnInit, TemplateRef } from '@angular/core';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { Class } from 'src/app/models/Class.model';
+import { ShareService } from 'src/app/services/share.service';
 
 @Component({
   selector: 'app-class',
@@ -27,7 +28,7 @@ export class ClassComponent implements OnInit {
 
   })
   modalRef: any;
-  constructor(private modalService: BsModalService, public data: DataBUSService) {
+  constructor(private modalService: BsModalService, public data: DataBUSService,private shared:ShareService) {
     this.modalRef = BsModalRef
     this.getAllClass();
   }
@@ -51,11 +52,13 @@ export class ClassComponent implements OnInit {
         null, null, form.Description.value,
       )
       this.data.createClass(newClass).then(() => {
-        alert("Thêm lớp học thành công");
+        this.shared.showToast("Success","Thêm lớp học thành công");
+
         this.getAllClass();
       });
     } else {
-      alert("Vui lòng nhập đủ thông tin")
+      this.shared.showToast("Error","Vui lòng nhập đủ thông tin",true);
+
     }
   }
   updateClass() {
@@ -65,16 +68,20 @@ export class ClassComponent implements OnInit {
         this.selectedClass._id, null, form.Description.value
       )
       this.data.updateClass(newClass).then(() => {
-        alert("Cập nhật lớp học thành công");
+        this.shared.showToast("Success","Cập nhật lớp học thành công");
+
         this.getAllClass();
       });
     } else {
-      alert("Vui lòng nhập đủ thông tin")
+      this.shared.showToast("Error","Vui lòng nhập đủ thông tin",true);
+
     }
   }
   async deleteClass(Id: any) {
     await this.data.deteleClass(Id).then(() => {
-      alert("Xóa thành công");
+
+      this.shared.showToast("Success","Xóa thành công");
+
       this.getAllClass();
     })
   }

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from 'src/app/services/auth.service';
+import { ShareService } from 'src/app/services/share.service';
 
 @Component({
   selector: 'app-login',
@@ -11,7 +12,7 @@ export class LoginComponent implements OnInit {
   password = "";
   errorMessage = ''; // validation error handle
   error: { name: string, message: string } = { name: '', message: '' }; // for firbase error handle
-  constructor(public authSer: AuthService) { }
+  constructor(public authSer: AuthService,private shared:ShareService) { }
 
   ngOnInit(): void {
   }
@@ -47,8 +48,9 @@ export class LoginComponent implements OnInit {
       this.authSer.loginWithEmail(this.email, this.password)
         .then(() => {
           // this.router.navigate(['/note-page'])
-          alert("susscess login!")
+          this.shared.showToast('Susscess',"susscess login!");
         }).catch(_error => {
+          this.shared.showToast('Error',"Error login!",true);
           this.error = _error
           // this.router.navigate(['/sign-in'])
         })

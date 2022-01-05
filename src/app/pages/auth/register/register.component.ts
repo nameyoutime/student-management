@@ -6,6 +6,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { AuthService } from 'src/app/services/auth.service';
+import { ShareService } from 'src/app/services/share.service';
 @Component({
   selector: 'app-register',
   templateUrl: './register.component.html',
@@ -20,7 +21,7 @@ export class RegisterComponent implements OnInit {
   errorMessage = ''; // validation error handle
   error: { name: string, message: string } = { name: '', message: '' }; // for firbase error handle
 
-  constructor(private authSer: AuthService) { }
+  constructor(private authSer: AuthService,private shared:ShareService) { }
 
   ngOnInit(): void {
 
@@ -36,7 +37,10 @@ export class RegisterComponent implements OnInit {
       this.authSer.registerWithEmail(this.email, this.password)
         .then(() => {
           this.message = "you are register with data on firbase"
+          this.shared.showToast("Register","Register suscess!");
         }).catch(_error => {
+          this.shared.showToast("Register","Register error!",true);
+
           this.error = _error;
         })
     }

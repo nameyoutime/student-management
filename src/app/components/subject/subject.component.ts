@@ -3,6 +3,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Component, OnInit, TemplateRef } from '@angular/core';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { Subject } from 'src/app/models/Subject.model';
+import { ShareService } from 'src/app/services/share.service';
 @Component({
   selector: 'app-subject',
   templateUrl: './subject.component.html',
@@ -27,7 +28,7 @@ export class SubjectComponent implements OnInit {
 
   })
   modalRef: any;
-  constructor(private modalService: BsModalService, public data: DataBUSService) {
+  constructor(private modalService: BsModalService, public data: DataBUSService,private shared:ShareService) {
     this.modalRef = BsModalRef
     this.getAllSubject();
   }
@@ -51,11 +52,13 @@ export class SubjectComponent implements OnInit {
         null, form.Title.value, form.Description.value,
       )
       this.data.createSubject(newSubject).then(() => {
-        alert("Thêm môn học thành công");
+        this.shared.showToast("Success","Thêm môn học thành công");
+
         this.getAllSubject();
       });
     } else {
-      alert("Vui lòng nhập đủ thông tin")
+      this.shared.showToast("Error","Vui lòng nhập đủ thông tin",true);
+
     }
   }
   updateSubject() {
@@ -65,16 +68,19 @@ export class SubjectComponent implements OnInit {
         this.selectedSubject._id, form.Title.value, form.Description.value
       )
       this.data.updateSubject(newSubject).then(() => {
-        alert("Cập nhật môn học thành công");
+      this.shared.showToast("Error","Cập nhật môn học thành công");
+
         this.getAllSubject();
       });
     } else {
-      alert("Vui lòng nhập đủ thông tin")
+      this.shared.showToast("Error","Vui lòng nhập đủ thông tin",true);
+
     }
   }
   async deleteSubject(Id: any) {
     await this.data.deteleSubject(Id).then(() => {
-      alert("Xóa thành công");
+      this.shared.showToast("Success","Xóa thành công");
+
       this.getAllSubject();
     })
   }
